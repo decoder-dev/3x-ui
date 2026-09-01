@@ -322,6 +322,7 @@ func StripInboundXhttpClientFields(streamSettings string) (string, bool) {
 		"scMinPostsIntervalMs",
 		"uplinkChunkSize",
 		"noGRPCHeader",
+		"downFrame",
 	}
 	changed := false
 	for _, key := range clientOnly {

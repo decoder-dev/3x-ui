@@ -239,7 +239,9 @@ func TestStripInboundXhttpClientFields_RemovesClientOnlyKnobs(t *testing.T) {
 			"downloadSettings": { "network": "xhttp" },
 			"scMinPostsIntervalMs": "20-40",
 			"uplinkChunkSize": 4096,
-			"noGRPCHeader": true
+			"noGRPCHeader": true,
+			"downFrame": true,
+			"scStreamDownServerSecs": "15-45"
 		}
 	}`
 	out, changed := StripInboundXhttpClientFields(stream)
@@ -249,10 +251,13 @@ func TestStripInboundXhttpClientFields_RemovesClientOnlyKnobs(t *testing.T) {
 	if strings.Contains(out, `"xmux"`) {
 		t.Fatalf("xmux should be removed from xray config stream: %s", out)
 	}
-	for _, key := range []string{"downloadSettings", "scMinPostsIntervalMs", "uplinkChunkSize", "noGRPCHeader"} {
+	for _, key := range []string{"downloadSettings", "scMinPostsIntervalMs", "uplinkChunkSize", "noGRPCHeader", "downFrame"} {
 		if strings.Contains(out, `"`+key+`"`) {
 			t.Fatalf("%s should be removed from xray config stream: %s", key, out)
 		}
+	}
+	if !strings.Contains(out, `"scStreamDownServerSecs"`) {
+		t.Fatalf("scStreamDownServerSecs must remain on server inbound: %s", out)
 	}
 	var parsed map[string]any
 	if err := json.Unmarshal([]byte(out), &parsed); err != nil {

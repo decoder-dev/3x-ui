@@ -120,6 +120,41 @@ describe('normalizeXhttpForWire stream-one', () => {
     expect(out).not.toHaveProperty('headers');
   });
 
+  it('preserves stream keepalive fields on packet-up inbound', () => {
+    const out = normalizeXhttpForWire(
+      {
+        path: '/moon/shot',
+        mode: 'packet-up',
+        scStreamUpServerSecs: '20-80',
+        scStreamDownServerSecs: '15-45',
+        downFrame: true,
+        enableXmux: false,
+      },
+      'inbound',
+    );
+
+    expect(out.scStreamUpServerSecs).toBe('20-80');
+    expect(out.scStreamDownServerSecs).toBe('15-45');
+    expect(out.downFrame).toBe(true);
+  });
+
+  it('drops stream keepalive fields on packet-up outbound', () => {
+    const out = normalizeXhttpForWire(
+      {
+        path: '/moon/shot',
+        mode: 'packet-up',
+        scStreamUpServerSecs: '20-80',
+        scStreamDownServerSecs: '15-45',
+        downFrame: true,
+      },
+      'outbound',
+    );
+
+    expect(out).not.toHaveProperty('scStreamUpServerSecs');
+    expect(out).not.toHaveProperty('scStreamDownServerSecs');
+    expect(out.downFrame).toBe(true);
+  });
+
   it('preserves non-default scMinPostsIntervalMs on inbound for subscriptions', () => {
     const out = normalizeXhttpForWire(
       {

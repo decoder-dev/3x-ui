@@ -105,6 +105,8 @@ export const XHttpStreamSettingsSchema = z.preprocess(
     noSSEHeader: z.boolean().default(false),
     scMaxBufferedPosts: z.number().int().min(0).default(30),
     scStreamUpServerSecs: z.string().default('20-80'),
+    // decoder-dev / Xray #6562: server-side downlink keepalive window (packet-up).
+    scStreamDownServerSecs: z.string().default(''),
     serverMaxHeaderBytes: z.number().int().min(0).default(0),
     uplinkHTTPMethod: z.string().default(''),
     headers: WsHeaderMapSchema.default({}),
@@ -117,6 +119,8 @@ export const XHttpStreamSettingsSchema = z.preprocess(
     scMinPostsIntervalMs: z.string().default(''),
     uplinkChunkSize: z.number().int().min(0).default(0),
     noGRPCHeader: z.boolean().default(false),
+    // Client-only: request downlink framed keepalive (decoder-dev fork).
+    downFrame: z.boolean().default(false),
     xmux: XHttpXmuxSchema.optional(),
     // UI-only toggle controlling whether the XMUX sub-form is expanded.
     // Never present on the wire — outbound modal strips it via the

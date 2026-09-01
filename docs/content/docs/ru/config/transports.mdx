@@ -102,6 +102,8 @@ HTTPUpgrade — это одноразовый HTTP/1.1 `Upgrade` без фрей
 | `xPaddingBytes`        | `100-1000`  | Диапазон случайного паддинга, размывающего размеры пакетов.            |
 | `scMaxBufferedPosts`   | `30`        | Серверный буфер для загружаемых POST-запросов.                         |
 | `scStreamUpServerSecs` | `20-80`     | Окно сервера в режиме stream-up (диапазон через дефис).               |
+| `scStreamDownServerSecs` | _(нет)_   | Downlink keepalive на сервере (decoder-dev / #6562).                   |
+| `downFrame`            | `false`     | Клиент запрашивает framed downlink keepalive (decoder-dev).           |
 | `xmux` (`enableXmux`)  | _(выкл.)_   | Мультиплексирование соединений — `maxConcurrency` `16-32`, `maxConnections` `6`, … Включайте при высокой конкурентности. |
 
 Поля Session-ID (`sessionIDPlacement`, `sessionIDKey`, `sessionIDTable`,
