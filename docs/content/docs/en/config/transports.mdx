@@ -99,6 +99,8 @@ ones you'll usually touch:
 | `xPaddingBytes`        | `100-1000`  | Random padding range that blurs packet sizes.                          |
 | `scMaxBufferedPosts`   | `30`        | Server-side buffer for uploaded POSTs.                                 |
 | `scStreamUpServerSecs` | `20-80`     | Stream-up server window (dash range).                                  |
+| `scStreamDownServerSecs` | _(none)_  | Downlink framed keepalive window on server (decoder-dev / #6562).      |
+| `downFrame`            | `false`     | Client requests framed downlink keepalive (client extra / decoder-dev). |
 | `xmux` (`enableXmux`)  | _(off)_     | Connection multiplexing — `maxConcurrency` `16-32`, `maxConnections` `6`, … Turn on for high concurrency. |
 
 Session-ID fields (`sessionIDPlacement`, `sessionIDKey`, `sessionIDTable`,

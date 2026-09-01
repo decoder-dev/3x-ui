@@ -80,6 +80,8 @@ function buildXhttpExtra(xhttp: XHttpStreamSettings | undefined): Record<string,
     'uplinkDataPlacement',
     'uplinkDataKey',
     'scMaxEachPostBytes',
+    'scMinPostsIntervalMs',
+    'scStreamDownServerSecs',
   ] as const;
   // Values matching xray-core's own defaults stay off the wire — old panels
   // seeded them into every config and the literal values are a DPI
@@ -99,6 +101,14 @@ function buildXhttpExtra(xhttp: XHttpStreamSettings | undefined): Record<string,
   }
   if (typeof extra.sessionIDKey === 'string') {
     extra.sessionKey = extra.sessionIDKey;
+  }
+
+  if (xhttp.downFrame === true) {
+    extra.downFrame = true;
+  }
+
+  if (xhttp.enableXmux && xhttp.xmux && Object.keys(xhttp.xmux).length > 0) {
+    extra.xmux = xhttp.xmux;
   }
 
   // Headers on the wire are a record; emit them as a map upstream's

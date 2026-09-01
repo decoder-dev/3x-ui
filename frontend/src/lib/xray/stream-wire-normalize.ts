@@ -14,6 +14,7 @@ const PACKET_UP_FIELDS = [
 ] as const;
 
 const STREAM_UP_SERVER_FIELDS = ['scStreamUpServerSecs'] as const;
+const STREAM_DOWN_SERVER_FIELDS = ['scStreamDownServerSecs'] as const;
 
 const PLACEMENT_STRING_FIELDS = [
   'sessionIDPlacement',
@@ -245,7 +246,12 @@ export function normalizeXhttpForWire(
 
   dropEmptyStrings(out, PLACEMENT_STRING_FIELDS);
   // Empty tuning fields mean "use xray-core's default" — never emit them.
-  dropEmptyStrings(out, ['scMaxEachPostBytes', 'scMinPostsIntervalMs', 'scStreamUpServerSecs']);
+  dropEmptyStrings(out, [
+    'scMaxEachPostBytes',
+    'scMinPostsIntervalMs',
+    'scStreamUpServerSecs',
+    'scStreamDownServerSecs',
+  ]);
 
   if (!hasMeaningfulHeaders(out.headers)) {
     delete out.headers;
@@ -257,6 +263,7 @@ export function normalizeXhttpForWire(
   }
 
   if (out.noGRPCHeader !== true) delete out.noGRPCHeader;
+  if (out.downFrame !== true) delete out.downFrame;
   if (out.noSSEHeader !== true) delete out.noSSEHeader;
   if (out.serverMaxHeaderBytes === 0) delete out.serverMaxHeaderBytes;
   if (out.uplinkChunkSize === 0) delete out.uplinkChunkSize;
@@ -264,13 +271,18 @@ export function normalizeXhttpForWire(
   if (mode === 'stream-one') {
     for (const key of PACKET_UP_FIELDS) delete out[key];
     for (const key of STREAM_UP_SERVER_FIELDS) delete out[key];
+    for (const key of STREAM_DOWN_SERVER_FIELDS) delete out[key];
   } else if (mode === 'stream-up') {
     for (const key of PACKET_UP_FIELDS) delete out[key];
     if (side === 'outbound') {
       delete out.scStreamUpServerSecs;
+      delete out.scStreamDownServerSecs;
     }
   } else if (mode === 'packet-up') {
-    delete out.scStreamUpServerSecs;
+    if (side === 'outbound') {
+      delete out.scStreamUpServerSecs;
+      delete out.scStreamDownServerSecs;
+    }
   }
 
   return out;

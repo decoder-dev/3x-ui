@@ -39,6 +39,7 @@ const XHTTP_STRING_KEYS = [
   'scMaxEachPostBytes',
   'scMinPostsIntervalMs',
   'scStreamUpServerSecs',
+  'scStreamDownServerSecs',
   'uplinkHTTPMethod',
 ] as const;
 // Legacy share links (pre xray-core #6258) carry sessionPlacement/sessionKey.
@@ -53,7 +54,7 @@ const XHTTP_NUMBER_KEYS = [
   'serverMaxHeaderBytes',
   'uplinkChunkSize',
 ] as const;
-const XHTTP_BOOL_KEYS = ['xPaddingObfsMode', 'noSSEHeader', 'noGRPCHeader'] as const;
+const XHTTP_BOOL_KEYS = ['xPaddingObfsMode', 'noSSEHeader', 'noGRPCHeader', 'downFrame'] as const;
 // Nested objects the inbound link bundles into the `extra` JSON blob
 // (and vmess JSON carries inline). The outbound form adapter expands
 // xmux into the XMUX sub-form (enableXmux) on load.

@@ -109,6 +109,28 @@ export default function XhttpForm() {
           >
             <Input placeholder="e.g. 50-150" />
           </FormField>
+          <FormField
+            name={['streamSettings', 'xhttpSettings', 'scStreamUpServerSecs']}
+            label={t('pages.inbounds.form.streamUpServer')}
+            tooltip={t('pages.inbounds.form.streamUpServerHint')}
+          >
+            <Input placeholder="20-80" />
+          </FormField>
+          <FormField
+            name={['streamSettings', 'xhttpSettings', 'scStreamDownServerSecs']}
+            label={t('pages.inbounds.form.streamDownServer')}
+            tooltip={t('pages.inbounds.form.streamDownServerHint')}
+          >
+            <Input placeholder="15-45" />
+          </FormField>
+          <FormField
+            name={['streamSettings', 'xhttpSettings', 'downFrame']}
+            label={t('pages.inbounds.form.downFrame')}
+            tooltip={t('pages.inbounds.form.downFrameHint')}
+            valueProp="checked"
+          >
+            <Switch />
+          </FormField>
         </>
       )}
       {xhttpMode === 'stream-up' && (
@@ -124,6 +146,21 @@ export default function XhttpForm() {
             label={t('pages.inbounds.form.streamUpServer')}
           >
             <Input />
+          </FormField>
+          <FormField
+            name={['streamSettings', 'xhttpSettings', 'scStreamDownServerSecs']}
+            label={t('pages.inbounds.form.streamDownServer')}
+            tooltip={t('pages.inbounds.form.streamDownServerHint')}
+          >
+            <Input placeholder="15-45" />
+          </FormField>
+          <FormField
+            name={['streamSettings', 'xhttpSettings', 'downFrame']}
+            label={t('pages.inbounds.form.downFrame')}
+            tooltip={t('pages.inbounds.form.downFrameHint')}
+            valueProp="checked"
+          >
+            <Switch />
           </FormField>
         </>
       )}

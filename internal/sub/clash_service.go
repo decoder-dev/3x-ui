@@ -489,6 +489,7 @@ func buildXhttpClashOpts(xhttp map[string]any) map[string]any {
 		{"uplinkDataKey", "uplink-data-key", ""},
 		{"scMaxEachPostBytes", "sc-max-each-post-bytes", "1000000"},
 		{"scMinPostsIntervalMs", "sc-min-posts-interval-ms", "30"},
+		{"scStreamDownServerSecs", "sc-stream-down-server-secs", ""},
 	}
 
 	for _, f := range stringFields {
@@ -515,6 +516,9 @@ func buildXhttpClashOpts(xhttp map[string]any) map[string]any {
 	// Bool fields (truthy only)
 	if v, ok := xhttp["noGRPCHeader"].(bool); ok && v {
 		opts["no-grpc-header"] = true
+	}
+	if v, ok := xhttp["downFrame"].(bool); ok && v {
+		opts["down-frame"] = true
 	}
 	if v, ok := xhttp["xPaddingObfsMode"].(bool); ok && v {
 		opts["x-padding-obfs-mode"] = true

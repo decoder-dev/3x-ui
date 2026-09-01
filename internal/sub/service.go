@@ -2144,6 +2144,7 @@ func buildXhttpExtra(xhttp map[string]any) map[string]any {
 		"seqPlacement", "seqKey",
 		"uplinkDataPlacement", "uplinkDataKey",
 		"scMaxEachPostBytes", "scMinPostsIntervalMs",
+		"scStreamDownServerSecs",
 	}
 	// Values matching xray-core's own defaults are redundant on the wire and
 	// the literal scMinPostsIntervalMs=30 is a known DPI fingerprint (#5141).
@@ -2188,7 +2189,7 @@ func buildXhttpExtra(xhttp map[string]any) map[string]any {
 		}
 	}
 
-	for _, field := range []string{"noGRPCHeader"} {
+	for _, field := range []string{"noGRPCHeader", "downFrame"} {
 		if v, ok := xhttp[field].(bool); ok && v {
 			extra[field] = v
 		}

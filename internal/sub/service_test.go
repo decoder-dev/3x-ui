@@ -400,6 +400,21 @@ func TestBuildXhttpExtra_IncludesClientSideFieldsWhenPresent(t *testing.T) {
 	}
 }
 
+func TestBuildXhttpExtra_DownlinkKeepaliveFields(t *testing.T) {
+	extra := buildXhttpExtra(map[string]any{
+		"mode":                   "packet-up",
+		"scStreamDownServerSecs": "15-45",
+		"downFrame":              true,
+	})
+
+	if extra["scStreamDownServerSecs"] != "15-45" {
+		t.Fatalf("scStreamDownServerSecs = %#v, want 15-45", extra["scStreamDownServerSecs"])
+	}
+	if extra["downFrame"] != true {
+		t.Fatalf("downFrame = %#v, want true", extra["downFrame"])
+	}
+}
+
 func TestBuildXhttpExtra_LegacySessionFieldsEmitBothNames(t *testing.T) {
 	extra := buildXhttpExtra(map[string]any{
 		"sessionPlacement": "query",
