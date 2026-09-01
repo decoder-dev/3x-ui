@@ -205,6 +205,7 @@ export default function TelegramTab({ allSetting, updateSetting }: TelegramTabPr
 
   return (
     <Tabs
+      className={isMobile ? 'icons-only' : undefined}
       defaultActiveKey="1"
       items={[
         {

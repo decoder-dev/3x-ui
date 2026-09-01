@@ -146,6 +146,7 @@ export default function SubscriptionFormatsTab({
 
   return (
     <Tabs
+      className={isMobile ? 'icons-only' : undefined}
       defaultActiveKey="1"
       items={[
         {

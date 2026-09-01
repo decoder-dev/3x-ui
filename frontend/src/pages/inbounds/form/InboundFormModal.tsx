@@ -52,6 +52,8 @@ import { HttpUpgradeStreamSettingsSchema } from '@/schemas/protocols/stream/http
 import { XHttpStreamSettingsSchema } from '@/schemas/protocols/stream/xhttp';
 import { DateTimePicker } from '@/components/form';
 import { FinalMaskField } from '@/lib/xray/forms/fields';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { responsiveFormLayout, responsiveModalProps } from '@/lib/ui/responsive-modal';
 import './InboundFormModal.css';
 
 import { AdvancedAllEditor, AdvancedSliceEditor } from './advanced-editors';
@@ -225,6 +227,8 @@ export default function InboundFormModal({
   availableNodesFetched = true,
 }: InboundFormModalProps) {
   const { t } = useTranslation();
+  const { isMobile } = useMediaQuery();
+  const formLayout = responsiveFormLayout(isMobile);
   const [messageApi, messageContextHolder] = message.useMessage();
   const [modal, modalContextHolder] = Modal.useModal();
   const methods = useForm<InboundFormValues>({ defaultValues: buildAddModeValues() });
@@ -1090,18 +1094,13 @@ export default function InboundFormModal({
         cancelText={t('close')}
         confirmLoading={saving}
         mask={{ closable: false }}
-        width={780}
+        {...responsiveModalProps(isMobile, { desktopWidth: 780 })}
         onOk={submit}
         onCancel={onClose}
         destroyOnHidden
       >
         <FormProvider {...methods}>
-          <Form
-            colon={false}
-            labelCol={{ sm: { span: 8 } }}
-            wrapperCol={{ sm: { span: 14 } }}
-            labelWrap
-          >
+          <Form colon={false} labelWrap {...formLayout}>
             <Tabs
               activeKey={activeTab}
               onChange={setActiveTab}

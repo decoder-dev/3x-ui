@@ -263,6 +263,7 @@ export default function SecurityTab({ allSetting, updateSetting, saveSetting }: 
       {messageContextHolder}
       {modalContextHolder}
       <Tabs
+        className={isMobile ? 'icons-only' : undefined}
         defaultActiveKey="1"
         items={[
           {

@@ -347,6 +347,7 @@ export default function RoutingTab({
     <>
       {modalContextHolder}
       <Tabs
+        className={isMobile ? 'icons-only' : undefined}
         defaultActiveKey="basic"
         items={[
           {

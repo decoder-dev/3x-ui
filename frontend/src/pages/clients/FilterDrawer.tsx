@@ -21,6 +21,7 @@ import type { InboundOption } from '@/hooks/useClients';
 import type { NodeRecord } from '@/schemas/node';
 import { formatInboundLabel } from '@/lib/inbounds/label';
 import { emptyFilters, type ClientFilters } from './filters';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 interface FilterDrawerProps {
   open: boolean;
@@ -46,6 +47,7 @@ export default function FilterDrawer({
   nodes,
 }: FilterDrawerProps) {
   const { t } = useTranslation();
+  const { isMobile } = useMediaQuery();
 
   function patch<K extends keyof ClientFilters>(key: K, value: ClientFilters[K]) {
     onChange({ ...filters, [key]: value });
@@ -87,7 +89,7 @@ export default function FilterDrawer({
       title={t('pages.clients.filterTitle')}
       open={open}
       onClose={() => onOpenChange(false)}
-      size={420}
+      size={isMobile ? '100%' : 420}
       destroyOnHidden
       footer={
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>

@@ -509,7 +509,7 @@ export default function BasicsTab({
   return (
     <>
       {modalContextHolder}
-      <Tabs defaultActiveKey="1" items={items} />
+      <Tabs defaultActiveKey="1" className={isMobile ? 'icons-only' : undefined} items={items} />
     </>
   );
 }
