@@ -7,6 +7,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/mhsanaei/3x-ui/v3/internal/util/json_util"
@@ -911,6 +912,54 @@ type Client struct {
 	TrafficResetDay int    `json:"trafficResetDay,omitempty" form:"trafficResetDay" validate:"omitempty,gte=1,lte=31"`
 	CreatedAt       int64  `json:"created_at,omitempty"` // Creation timestamp
 	UpdatedAt       int64  `json:"updated_at,omitempty"` // Last update timestamp
+}
+
+func normalizeJSONInt64Field(raw json.RawMessage) (json.RawMessage, error) {
+	if len(raw) == 0 || bytes.Equal(raw, []byte("null")) {
+		return json.RawMessage("0"), nil
+	}
+	if raw[0] == '"' {
+		var s string
+		if err := json.Unmarshal(raw, &s); err != nil {
+			return nil, err
+		}
+		s = strings.TrimSpace(s)
+		if s == "" {
+			return json.RawMessage("0"), nil
+		}
+		if _, err := strconv.ParseInt(s, 10, 64); err != nil {
+			return json.RawMessage("0"), nil
+		}
+		return json.RawMessage(s), nil
+	}
+	return raw, nil
+}
+
+// UnmarshalJSON accepts tgId as either a JSON number or a numeric string.
+// Legacy panels and imports often persist "" which breaks inbound updates.
+func (c *Client) UnmarshalJSON(data []byte) error {
+	type clientAlias Client
+	var raw map[string]json.RawMessage
+	if err := json.Unmarshal(data, &raw); err != nil {
+		return err
+	}
+	if tgRaw, ok := raw["tgId"]; ok {
+		normalized, err := normalizeJSONInt64Field(tgRaw)
+		if err != nil {
+			return err
+		}
+		raw["tgId"] = normalized
+	}
+	merged, err := json.Marshal(raw)
+	if err != nil {
+		return err
+	}
+	var alias clientAlias
+	if err := json.Unmarshal(merged, &alias); err != nil {
+		return err
+	}
+	*c = Client(alias)
+	return nil
 }
 
 type ClientRecord struct {

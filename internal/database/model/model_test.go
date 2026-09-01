@@ -50,6 +50,44 @@ func TestInboundMarshalJSONEmptyFieldsBecomeNull(t *testing.T) {
 	}
 }
 
+func TestClientUnmarshalJSONAcceptsStringTgId(t *testing.T) {
+	cases := []struct {
+		name string
+		body string
+		want int64
+	}{
+		{name: "numeric", body: `{"email":"a","tgId":123}`, want: 123},
+		{name: "string", body: `{"email":"a","tgId":"456"}`, want: 456},
+		{name: "empty string", body: `{"email":"a","tgId":""}`, want: 0},
+		{name: "null", body: `{"email":"a","tgId":null}`, want: 0},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			var c Client
+			if err := json.Unmarshal([]byte(tc.body), &c); err != nil {
+				t.Fatalf("Unmarshal failed: %v", err)
+			}
+			if c.TgID != tc.want {
+				t.Fatalf("TgID = %d, want %d", c.TgID, tc.want)
+			}
+		})
+	}
+}
+
+func TestClientUnmarshalJSONArrayWithStringTgId(t *testing.T) {
+	body := `[{"email":"a","tgId":""},{"email":"b","tgId":"42"}]`
+	var clients []Client
+	if err := json.Unmarshal([]byte(body), &clients); err != nil {
+		t.Fatalf("Unmarshal clients array failed: %v", err)
+	}
+	if len(clients) != 2 {
+		t.Fatalf("len(clients) = %d, want 2", len(clients))
+	}
+	if clients[0].TgID != 0 || clients[1].TgID != 42 {
+		t.Fatalf("unexpected tgIds: %#v", []int64{clients[0].TgID, clients[1].TgID})
+	}
+}
+
 func TestInboundUnmarshalJSONAcceptsBothShapes(t *testing.T) {
 	cases := []struct {
 		name string
