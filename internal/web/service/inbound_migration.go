@@ -128,9 +128,13 @@ func (s *InboundService) MigrationRequirements() (err error) {
 				if _, ok := c["tgId"]; ok {
 					tgId := c["tgId"]
 					if tgIdStr, ok2 := tgId.(string); ok2 {
-						tgIdInt64, err := strconv.ParseInt(strings.ReplaceAll(tgIdStr, " ", ""), 10, 64)
-						if err == nil {
+						tgIdStr = strings.TrimSpace(strings.ReplaceAll(tgIdStr, " ", ""))
+						if tgIdStr == "" {
+							c["tgId"] = int64(0)
+						} else if tgIdInt64, err := strconv.ParseInt(tgIdStr, 10, 64); err == nil {
 							c["tgId"] = tgIdInt64
+						} else {
+							c["tgId"] = int64(0)
 						}
 					}
 				}
