@@ -512,6 +512,7 @@ export default function BalancersTab({
       {modalContextHolder}
       {messageContextHolder}
       <Tabs
+        className={isMobile ? 'icons-only' : undefined}
         items={[
           {
             key: 'balancers',

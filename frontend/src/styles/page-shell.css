@@ -216,6 +216,22 @@ body.dark .ant-dropdown-menu-item-divider {
   padding: 24px;
 }
 
+.sub-page {
+  --bg-page: #e6e8ec;
+  --bg-card: #ffffff;
+  min-height: 100vh;
+  background: var(--bg-page);
+}
+
+.sub-page.is-dark {
+  --bg-page: #1a1b1f;
+  --bg-card: #23252b;
+}
+
+.sub-page .content-area {
+  padding: 24px;
+}
+
 .hosts-page .summary-card {
   padding: 16px;
 }

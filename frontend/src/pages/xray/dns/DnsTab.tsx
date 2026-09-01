@@ -498,7 +498,7 @@ export default function DnsTab({ templateSettings, setTemplateSettings }: DnsTab
   return (
     <>
       {modalContextHolder}
-      <Tabs defaultActiveKey="1" items={items} />
+      <Tabs defaultActiveKey="1" className={isMobile ? 'icons-only' : undefined} items={items} />
       <DnsServerModal
         open={serverModalOpen}
         server={editingServer}

@@ -326,6 +326,7 @@ export default function SubscriptionBalancersTab({
   return (
     <>
       <Tabs
+        className={isMobile ? 'icons-only' : undefined}
         defaultActiveKey="balancers"
         items={[
           {

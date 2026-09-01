@@ -175,6 +175,7 @@ export default function GeneralTab({ allSetting, updateSetting }: GeneralTabProp
 
   return (
     <Tabs
+      className={isMobile ? 'icons-only' : undefined}
       defaultActiveKey="1"
       items={[
         {

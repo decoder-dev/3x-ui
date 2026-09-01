@@ -10,6 +10,8 @@ import { useClientOptions } from '@/api/queries/useClientOptions';
 import { useInboundOptions } from '@/api/queries/useInboundOptions';
 import { RuleFormSchema, type RuleFormValues } from '@/schemas/xray';
 import { buildRemarkByTag, formatInboundTag, isApiRule } from './helpers';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { responsiveFormLayout, responsiveModalProps } from '@/lib/ui/responsive-modal';
 
 export interface RoutingRule {
   enabled?: boolean;
@@ -78,6 +80,8 @@ export default function RuleFormModal({
   onConfirm,
 }: RuleFormModalProps) {
   const { t } = useTranslation();
+  const { isMobile } = useMediaQuery();
+  const formLayout = responsiveFormLayout(isMobile);
   const methods = useForm<RuleFormValues>({ defaultValues: initialForm() });
   const isEdit = rule != null;
 
@@ -175,12 +179,12 @@ export default function RuleFormModal({
       okText={okText}
       cancelText={t('close')}
       mask={{ closable: false }}
-      width={640}
+      {...responsiveModalProps(isMobile, { desktopWidth: 640 })}
       onOk={submit}
       onCancel={onClose}
     >
       <FormProvider {...methods}>
-        <Form colon={false} labelCol={{ md: { span: 8 } }} wrapperCol={{ md: { span: 14 } }}>
+        <Form colon={false} {...formLayout}>
           <FormField name="enabled" label={t('enable')} valueProp="checked">
             <Switch disabled={isApiRule(rule ?? {})} />
           </FormField>

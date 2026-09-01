@@ -52,6 +52,7 @@ export default function EmailTab({ allSetting, updateSetting }: EmailTabProps) {
 
   return (
     <Tabs
+      className={isMobile ? 'icons-only' : undefined}
       defaultActiveKey="1"
       items={[
         {

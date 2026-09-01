@@ -38,6 +38,7 @@ export default function SubscriptionGeneralTab({
 
   return (
     <Tabs
+      className={isMobile ? 'icons-only' : undefined}
       defaultActiveKey="1"
       items={[
         {

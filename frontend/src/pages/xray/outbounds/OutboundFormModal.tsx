@@ -16,6 +16,8 @@ import {
   canEnableTls,
   canEnableTlsFlow,
 } from '@/lib/xray/protocol-capabilities';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { responsiveFormLayout, responsiveModalProps } from '@/lib/ui/responsive-modal';
 
 import {
   FLOW_OPTIONS,
@@ -79,6 +81,8 @@ export default function OutboundFormModal({
   onConfirm,
 }: OutboundFormModalProps) {
   const { t } = useTranslation();
+  const { isMobile } = useMediaQuery();
+  const formLayout = responsiveFormLayout(isMobile);
   const [messageApi, messageContextHolder] = message.useMessage();
   const methods = useForm<OutboundFormValues>({ defaultValues: buildAddModeValues() });
   const [activeKey, setActiveKey] = useState('1');
@@ -347,18 +351,13 @@ export default function OutboundFormModal({
         okText={okText}
         cancelText={t('close')}
         mask={{ closable: false }}
-        width={780}
+        {...responsiveModalProps(isMobile, { desktopWidth: 780 })}
         onOk={onOk}
         onCancel={onClose}
         destroyOnHidden
       >
         <FormProvider {...methods}>
-          <Form
-            colon={false}
-            labelCol={{ md: { span: 8 } }}
-            wrapperCol={{ md: { span: 14 } }}
-            labelWrap
-          >
+          <Form colon={false} labelWrap {...formLayout}>
             <Tabs
               activeKey={activeKey}
               onChange={onTabChange}

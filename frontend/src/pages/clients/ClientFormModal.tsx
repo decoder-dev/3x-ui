@@ -36,6 +36,8 @@ import { generateMtprotoSecret } from '@/lib/xray/inbound-defaults';
 import { normalizeClientIps, type ClientIpInfo } from '@/lib/clients/ip-log';
 import { useDatepicker } from '@/hooks/useDatepicker';
 import { useClientHwids } from '@/hooks/useClientHwids';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { responsiveFormLayout, responsiveModalProps } from '@/lib/ui/responsive-modal';
 import { DateTimePicker, SelectAllClearButtons } from '@/components/form';
 import { FormField } from '@/components/form/rhf';
 import ClientHwidListModal from '@/components/clients/ClientHwidList';
@@ -248,6 +250,9 @@ export default function ClientFormModal({
   onOpenChange,
 }: ClientFormModalProps) {
   const { t } = useTranslation();
+  const { isMobile } = useMediaQuery();
+  const formLayout = responsiveFormLayout(isMobile);
+  const clientModalProps = responsiveModalProps(isMobile, { desktopWidth: 720 });
   const [messageApi, messageContextHolder] = message.useMessage();
   const isEdit = mode === 'edit';
 
@@ -779,12 +784,12 @@ export default function ClientFormModal({
         open={open}
         title={isEdit ? t('pages.clients.editClient') : t('pages.clients.addClient')}
         destroyOnHidden
-        width={720}
         zIndex={CLIENT_FORM_MODAL_Z_INDEX}
-        style={{ top: 20 }}
-        styles={{
-          body: { maxHeight: 'calc(100vh - 160px)', overflowY: 'auto', overflowX: 'hidden' },
-        }}
+        style={isMobile ? clientModalProps.style : { top: 20 }}
+        className={clientModalProps.className}
+        width={clientModalProps.width}
+        centered={clientModalProps.centered}
+        styles={clientModalProps.styles}
         onCancel={close}
         footer={
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -1481,7 +1486,7 @@ export default function ClientFormModal({
       <Modal
         open={ipsModalOpen}
         title={`${t('pages.clients.ipLog')}${client?.email ? ` — ${client.email}` : ''}`}
-        width={440}
+        {...responsiveModalProps(isMobile, { desktopWidth: 440 })}
         zIndex={CLIENT_IP_LOG_MODAL_Z_INDEX}
         onCancel={() => setIpsModalOpen(false)}
         footer={[
