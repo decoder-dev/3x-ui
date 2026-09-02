@@ -35,7 +35,7 @@
 | **База** | `tgId` не падает от кривого JSON — старые записи в SQLite не трогают нервы |
 | **Доставка** | Релизы `decoder-dev/3x-ui`, тег `dev-latest` — свежак с `main` без церемоний |
 
-Полный разбор установки под наш эталон: [`INSTALL-decoder-dev.ru.md`](INSTALL-decoder-dev.ru.md).
+Полный разбор — как завести точку: [`ZAVODIM-TOCHku.md`](ZAVODIM-TOCHku.md).
 
 ---
 
@@ -77,7 +77,7 @@ bash <(curl -Ls https://raw.githubusercontent.com/decoder-dev/3x-ui/main/install
 x-ui install-xray
 ```
 
-Или руками — в [`INSTALL-decoder-dev.ru.md`](INSTALL-decoder-dev.ru.md), там без воды.
+Или руками — в [`ZAVODIM-TOCHku.md`](ZAVODIM-TOCHku.md), там без воды.
 
 ### Cloud-init / без диалогов
 
