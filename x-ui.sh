@@ -94,6 +94,9 @@ else
 fi
 xui_service="${XUI_SERVICE:=/etc/systemd/system}"
 log_folder="${XUI_LOG_FOLDER:=/var/log/x-ui}"
+XUI_GITHUB_REPO="${XUI_GITHUB_REPO:-decoder-dev/3x-ui}"
+XUI_GITHUB_BRANCH="${XUI_GITHUB_BRANCH:-main}"
+XUI_GITHUB_RAW="https://raw.githubusercontent.com/${XUI_GITHUB_REPO}/${XUI_GITHUB_BRANCH}"
 mkdir -p "${log_folder}"
 iplimit_log_path="${log_folder}/3xipl.log"
 iplimit_banned_log_path="${log_folder}/3xipl-banned.log"
@@ -129,7 +132,7 @@ before_show_menu() {
 }
 
 install() {
-    bash <(curl -Ls https://raw.githubusercontent.com/MHSanaei/3x-ui/main/install.sh)
+    bash <(curl -Ls ${XUI_GITHUB_RAW}/install.sh)
     if [[ $? == 0 ]]; then
         if [[ $# == 0 ]]; then
             start
@@ -148,7 +151,7 @@ update() {
         fi
         return 0
     fi
-    bash <(curl -Ls https://raw.githubusercontent.com/MHSanaei/3x-ui/main/update.sh)
+    bash <(curl -Ls ${XUI_GITHUB_RAW}/update.sh)
     if [[ $? == 0 ]]; then
         LOGI "Update is complete, Panel has automatically restarted "
         before_show_menu
@@ -166,7 +169,7 @@ update_dev() {
     fi
     # XUI_UPDATE_TAG tells update.sh to install the dev-latest pre-release
     # instead of the latest stable tag.
-    XUI_UPDATE_TAG="dev-latest" bash <(curl -Ls https://raw.githubusercontent.com/MHSanaei/3x-ui/main/update.sh)
+    XUI_UPDATE_TAG="dev-latest" bash <(curl -Ls ${XUI_GITHUB_RAW}/update.sh)
     if [[ $? == 0 ]]; then
         LOGI "Dev update is complete, Panel has automatically restarted "
         before_show_menu
@@ -219,7 +222,7 @@ update_menu() {
         return 0
     fi
 
-    if replace_xui_script "https://raw.githubusercontent.com/MHSanaei/3x-ui/main/x-ui.sh" "false"; then
+    if replace_xui_script "${XUI_GITHUB_RAW}/x-ui.sh" "false"; then
         chmod +x ${xui_folder}/x-ui.sh
         echo -e "${green}Update successful. The panel has automatically restarted.${plain}"
         exit 0
@@ -836,7 +839,7 @@ enable_bbr() {
 }
 
 update_shell() {
-    if replace_xui_script "https://github.com/MHSanaei/3x-ui/raw/main/x-ui.sh" "true"; then
+    if replace_xui_script "https://github.com/${XUI_GITHUB_REPO}/raw/${XUI_GITHUB_BRANCH}/x-ui.sh" "true"; then
         LOGI "Upgrade script succeeded, Please rerun the script"
         before_show_menu
     else
