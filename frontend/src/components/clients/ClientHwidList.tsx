@@ -125,9 +125,7 @@ export default function ClientHwidListModal({
                   type="text"
                   size="small"
                   aria-label={
-                    entry.isBlocked
-                      ? t('pages.clients.unblockHwid')
-                      : t('pages.clients.blockHwid')
+                    entry.isBlocked ? t('pages.clients.unblockHwid') : t('pages.clients.blockHwid')
                   }
                   icon={entry.isBlocked ? <UnlockOutlined /> : <LockOutlined />}
                   loading={blockingId === entry.id}

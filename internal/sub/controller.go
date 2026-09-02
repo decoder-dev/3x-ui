@@ -45,19 +45,19 @@ type cachedSubTemplate struct {
 
 // SUBController handles HTTP requests for subscription links and JSON configurations.
 type SUBController struct {
-	subTitle         string
-	subSupportUrl    string
-	subProfileUrl    string
-	subAnnounce      string
-	subAnnounceUrl   string
+	subTitle           string
+	subSupportUrl      string
+	subProfileUrl      string
+	subAnnounce        string
+	subAnnounceUrl     string
 	subChangeUserAgent bool
 	subNoLimitXhttp    bool
 	subHappFingerprint string
 	subUserAgent       string
 	subUserAgentGeo    string
-	subEnableRouting bool
-	subRoutingRules  string
-	subHideSettings  bool
+	subEnableRouting   bool
+	subRoutingRules    string
+	subHideSettings    bool
 
 	subIncyEnableRouting bool
 	subIncyRoutingRules  string
@@ -109,19 +109,19 @@ type subControllerConfig struct {
 	subClashEnableRouting bool
 	subClashRules         string
 
-	subTitle         string
-	subSupportURL    string
-	subProfileURL    string
-	subAnnounce      string
-	subAnnounceURL   string
+	subTitle           string
+	subSupportURL      string
+	subProfileURL      string
+	subAnnounce        string
+	subAnnounceURL     string
 	subChangeUserAgent bool
 	subNoLimitXhttp    bool
 	subHappFingerprint string
 	subUserAgent       string
 	subUserAgentGeo    string
-	subEnableRouting bool
-	subRoutingRules  string
-	subHideSettings  bool
+	subEnableRouting   bool
+	subRoutingRules    string
+	subHideSettings    bool
 
 	subIncyEnableRouting bool
 	subIncyRoutingRules  string
@@ -298,8 +298,8 @@ func NewSUBController(g *gin.RouterGroup, options ...SUBControllerOption) *SUBCo
 		subUserAgent:       config.subUserAgent,
 		subUserAgentGeo:    config.subUserAgentGeo,
 		subEnableRouting:   config.subEnableRouting,
-		subRoutingRules:  config.subRoutingRules,
-		subHideSettings:  config.subHideSettings,
+		subRoutingRules:    config.subRoutingRules,
+		subHideSettings:    config.subHideSettings,
 
 		subIncyEnableRouting: config.subIncyEnableRouting,
 		subIncyRoutingRules:  config.subIncyRoutingRules,

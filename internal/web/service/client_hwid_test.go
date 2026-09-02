@@ -224,10 +224,10 @@ func TestClientHwidBlock(t *testing.T) {
 	rec := seedHwidClient(t, 5)
 
 	res, err := svc.EnforceHwidForSubID(rec.SubID, HwidRequest{
-		Hwid:        "blocked-device",
-		UserAgent:   "Happ/1.0",
-		DeviceOS:    "android",
-		IpAddress:   "203.0.113.10",
+		Hwid:      "blocked-device",
+		UserAgent: "Happ/1.0",
+		DeviceOS:  "android",
+		IpAddress: "203.0.113.10",
 	})
 	if err != nil || !res.Allowed {
 		t.Fatalf("register device: err=%v res=%+v", err, res)
