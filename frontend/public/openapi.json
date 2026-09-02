@@ -181,8 +181,14 @@
           "subAnnounce": {
             "type": "string"
           },
+          "subAnnounceUrl": {
+            "type": "string"
+          },
           "subCertFile": {
             "type": "string"
+          },
+          "subChangeUserAgent": {
+            "type": "boolean"
           },
           "subClashAutoDetect": {
             "type": "boolean"
@@ -216,6 +222,9 @@
           },
           "subEncrypt": {
             "type": "boolean"
+          },
+          "subHappFingerprint": {
+            "type": "string"
           },
           "subHideSettings": {
             "type": "boolean"
@@ -262,6 +271,9 @@
           "subListen": {
             "type": "string"
           },
+          "subNoLimitXhttp": {
+            "type": "boolean"
+          },
           "subPath": {
             "type": "string"
           },
@@ -295,6 +307,12 @@
             "maximum": 525600,
             "minimum": 0,
             "type": "integer"
+          },
+          "subUserAgent": {
+            "type": "string"
+          },
+          "subUserAgentGeoFiles": {
+            "type": "string"
           },
           "tgBotAPIServer": {
             "type": "string"
@@ -421,7 +439,9 @@
           "smtpTo",
           "smtpUsername",
           "subAnnounce",
+          "subAnnounceUrl",
           "subCertFile",
+          "subChangeUserAgent",
           "subClashAutoDetect",
           "subClashEnable",
           "subClashEnableRouting",
@@ -433,6 +453,7 @@
           "subEnable",
           "subEnableRouting",
           "subEncrypt",
+          "subHappFingerprint",
           "subHideSettings",
           "subIncyEnableRouting",
           "subIncyRoutingRules",
@@ -448,6 +469,7 @@
           "subJsonUserAgentRegex",
           "subKeyFile",
           "subListen",
+          "subNoLimitXhttp",
           "subPath",
           "subPort",
           "subProfileUrl",
@@ -458,6 +480,8 @@
           "subTitle",
           "subURI",
           "subUpdates",
+          "subUserAgent",
+          "subUserAgentGeoFiles",
           "tgBotAPIServer",
           "tgBotBackup",
           "tgBotChatId",
@@ -660,8 +684,14 @@
           "subAnnounce": {
             "type": "string"
           },
+          "subAnnounceUrl": {
+            "type": "string"
+          },
           "subCertFile": {
             "type": "string"
+          },
+          "subChangeUserAgent": {
+            "type": "boolean"
           },
           "subClashAutoDetect": {
             "type": "boolean"
@@ -695,6 +725,9 @@
           },
           "subEncrypt": {
             "type": "boolean"
+          },
+          "subHappFingerprint": {
+            "type": "string"
           },
           "subHideSettings": {
             "type": "boolean"
@@ -741,6 +774,9 @@
           "subListen": {
             "type": "string"
           },
+          "subNoLimitXhttp": {
+            "type": "boolean"
+          },
           "subPath": {
             "type": "string"
           },
@@ -774,6 +810,12 @@
             "maximum": 525600,
             "minimum": 0,
             "type": "integer"
+          },
+          "subUserAgent": {
+            "type": "string"
+          },
+          "subUserAgentGeoFiles": {
+            "type": "string"
           },
           "tgBotAPIServer": {
             "type": "string"
@@ -907,7 +949,9 @@
           "smtpTo",
           "smtpUsername",
           "subAnnounce",
+          "subAnnounceUrl",
           "subCertFile",
+          "subChangeUserAgent",
           "subClashAutoDetect",
           "subClashEnable",
           "subClashEnableRouting",
@@ -919,6 +963,7 @@
           "subEnable",
           "subEnableRouting",
           "subEncrypt",
+          "subHappFingerprint",
           "subHideSettings",
           "subIncyEnableRouting",
           "subIncyRoutingRules",
@@ -934,6 +979,7 @@
           "subJsonUserAgentRegex",
           "subKeyFile",
           "subListen",
+          "subNoLimitXhttp",
           "subPath",
           "subPort",
           "subProfileUrl",
@@ -944,6 +990,8 @@
           "subTitle",
           "subURI",
           "subUpdates",
+          "subUserAgent",
+          "subUserAgentGeoFiles",
           "tgBotAPIServer",
           "tgBotBackup",
           "tgBotChatId",
@@ -2381,7 +2429,7 @@
         "type": "object"
       },
       "Node": {
-        "description": "Node represents a remote 3хуя panel registered with the central panel.\nThe central panel polls each node's existing /panel/api/server/status\nendpoint over HTTP using the per-node ApiToken to populate the runtime\nstatus fields below.",
+        "description": "Node represents a remote 3x-ui panel registered with the central panel.\nThe central panel polls each node's existing /panel/api/server/status\nendpoint over HTTP using the per-node ApiToken to populate the runtime\nstatus fields below.",
         "properties": {
           "activeCount": {
             "example": 23,
@@ -3344,7 +3392,7 @@
         "type": "object"
       },
       "Setting": {
-        "description": "Setting stores key-value configuration settings for the 3хуя panel.",
+        "description": "Setting stores key-value configuration settings for the 3x-ui panel.",
         "properties": {
           "id": {
             "type": "integer"
@@ -3429,7 +3477,7 @@
         "type": "object"
       },
       "User": {
-        "description": "User represents a user account in the 3хуя panel.",
+        "description": "User represents a user account in the 3x-ui panel.",
         "properties": {
           "id": {
             "type": "integer"
@@ -8358,7 +8406,9 @@
                       "userAgent": "Happ/1.0",
                       "deviceOs": "android",
                       "osVersion": "15",
-                      "deviceModel": "Pixel 9"
+                      "deviceModel": "Pixel 9",
+                      "ipAddress": "203.0.113.10",
+                      "isBlocked": false
                     }
                   ]
                 }
@@ -8434,6 +8484,69 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "msg": {
+                      "type": "string"
+                    },
+                    "obj": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/panel/api/clients/hwids/{email}/{id}/block": {
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "summary": "Block or unblock a registered HWID device. Blocked devices are denied on the next subscription fetch.",
+        "operationId": "post_panel_api_clients_hwids_email_id_block",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "description": "Client email.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Device id, from the list endpoint.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "blocked": true
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Successful response",
