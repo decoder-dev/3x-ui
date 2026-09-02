@@ -795,12 +795,9 @@ const (
 )
 
 func (s *ServerService) GetXrayVersions() ([]string, error) {
-	const (
-		XrayURL    = "https://api.github.com/repos/XTLS/Xray-core/releases"
-		bufferSize = 8192
-	)
+	const bufferSize = 8192
 
-	req, reqErr := http.NewRequestWithContext(context.Background(), http.MethodGet, XrayURL, nil)
+	req, reqErr := http.NewRequestWithContext(context.Background(), http.MethodGet, xrayGithubAPIReleasesURL(), nil)
 	if reqErr != nil {
 		return nil, reqErr
 	}
@@ -835,20 +832,7 @@ func (s *ServerService) GetXrayVersions() ([]string, error) {
 
 	var versions []string
 	for _, release := range releases {
-		tagVersion := strings.TrimPrefix(release.TagName, "v")
-		tagParts := strings.Split(tagVersion, ".")
-		if len(tagParts) != 3 {
-			continue
-		}
-
-		major, err1 := strconv.Atoi(tagParts[0])
-		minor, err2 := strconv.Atoi(tagParts[1])
-		patch, err3 := strconv.Atoi(tagParts[2])
-		if err1 != nil || err2 != nil || err3 != nil {
-			continue
-		}
-
-		if major > 26 || (major == 26 && minor > 6) || (major == 26 && minor == 6 && patch >= 27) {
+		if xrayReleaseTagAllowed(release.TagName) {
 			versions = append(versions, release.TagName)
 		}
 	}
@@ -902,7 +886,7 @@ func (s *ServerService) downloadXRay(version string) (string, error) {
 	}
 
 	fileName := fmt.Sprintf("Xray-%s-%s.zip", osName, arch)
-	url := fmt.Sprintf("https://github.com/XTLS/Xray-core/releases/download/%s/%s", version, fileName)
+	url := xrayReleaseDownloadURL(version, fileName)
 	client := s.settingService.NewProxiedHTTPClient(60 * time.Second)
 	req, reqErr := http.NewRequestWithContext(context.Background(), http.MethodGet, url, nil)
 	if reqErr != nil {
@@ -942,25 +926,24 @@ func (s *ServerService) downloadXRay(version string) (string, error) {
 	}
 
 	// Verify the archive against the SHA2-256 published in the release's .dgst
-	// sidecar before installing it. TLS protects the transport, not the artifact;
-	// a corrupted or tampered asset must not be installed and run as xray.
+	// sidecar when upstream publishes one. decoder-dev fork releases may omit it.
 	want, err := s.fetchXrayDigestSHA256(client, url+".dgst")
 	if err != nil {
-		return "", err
-	}
-	if _, err := file.Seek(0, io.SeekStart); err != nil {
-		return "", err
-	}
-	hasher := sha256.New()
-	if _, err := io.Copy(hasher, file); err != nil {
-		return "", err
-	}
-	if got := hex.EncodeToString(hasher.Sum(nil)); !strings.EqualFold(got, want) {
-		// User-facing warning: the archive's SHA-256 does not match the official
-		// release checksum, so the download is corrupted or has been tampered
-		// with. Abort the install so a bad binary is never run, and tell the user
-		// to retry/re-download rather than proceed with a mismatched image.
-		return "", fmt.Errorf("Xray update aborted: the downloaded archive does not match the official SHA-256 checksum, so the image is corrupted or differs from the official release. Please exit and re-download the official image, then try again (expected %s, got %s)", want, got)
+		if xrayDigestRequired() {
+			return "", err
+		}
+		logger.Warning("xray digest unavailable for fork release, skipping checksum verify:", err)
+	} else {
+		if _, err := file.Seek(0, io.SeekStart); err != nil {
+			return "", err
+		}
+		hasher := sha256.New()
+		if _, err := io.Copy(hasher, file); err != nil {
+			return "", err
+		}
+		if got := hex.EncodeToString(hasher.Sum(nil)); !strings.EqualFold(got, want) {
+			return "", fmt.Errorf("Xray update aborted: the downloaded archive does not match the official SHA-256 checksum, so the image is corrupted or differs from the official release. Please exit and re-download the official image, then try again (expected %s, got %s)", want, got)
+		}
 	}
 
 	ok = true

@@ -119,6 +119,7 @@ jobs:
           cp x-ui.service.arch x-ui/
           cp x-ui.service.rhel x-ui/
           cp x-ui.sh x-ui/
+          cp xray-decoder-dev.sh x-ui/
           mv x-ui/xui-release x-ui/x-ui
           mkdir x-ui/bin
           cd x-ui/bin
@@ -282,8 +283,8 @@ jobs:
           mkdir x-ui\bin
           cd x-ui\bin
 
-          # Download Xray for Windows
-          $Xray_URL = "https://github.com/XTLS/Xray-core/releases/download/v26.7.28/"
+          # Download Xray for Windows (decoder-dev fork)
+          $Xray_URL = "https://github.com/decoder-dev/Xray-core/releases/download/v26.7.28-decoder/"
           Invoke-WebRequest @retry -Uri "${Xray_URL}Xray-windows-64.zip" -OutFile "Xray-windows-64.zip"
           Expand-Archive -Path "Xray-windows-64.zip" -DestinationPath .
           Remove-Item "Xray-windows-64.zip"

@@ -1086,6 +1086,28 @@ update_x-ui() {
         chmod +x bin/mtg-linux-$(arch) > /dev/null 2>&1
     fi
 
+    _install_decoder_xray_from_panel() {
+        local dir="$1"
+        if [[ -f "./xray-decoder-dev.sh" ]]; then
+            # shellcheck disable=SC1091
+            source "./xray-decoder-dev.sh"
+        else
+            local tmp_script
+            tmp_script=$(mktemp)
+            if curl -fsSL --retry 3 --connect-timeout 15 --max-time 60 \
+                "${XUI_GITHUB_RAW}/xray-decoder-dev.sh" -o "${tmp_script}"; then
+                # shellcheck disable=SC1090
+                source "${tmp_script}"
+            fi
+            rm -f "${tmp_script}"
+        fi
+        if declare -F install_decoder_xray >/dev/null 2>&1; then
+            install_decoder_xray "${dir}" "$(arch)" || \
+                echo -e "${yellow}decoder-dev Xray install step failed (bundled xray kept)${plain}"
+        fi
+    }
+    _install_decoder_xray_from_panel "${xui_folder}"
+
     echo -e "${green}Downloading and installing x-ui.sh script...${plain}"
     local xui_script_temp="/usr/bin/x-ui-temp.$$"
     rm -f "${xui_script_temp}"

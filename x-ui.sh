@@ -626,6 +626,28 @@ restart_xray() {
     fi
 }
 
+install_xray_decoder() {
+    local script="${xui_folder}/xray-decoder-dev.sh"
+    if [[ ! -f "$script" ]]; then
+        curl -fsSL "${XUI_GITHUB_RAW}/xray-decoder-dev.sh" -o "$script" || {
+            LOGE "Failed to download xray-decoder-dev.sh"
+            return 1
+        }
+        chmod +x "$script"
+    fi
+    # shellcheck disable=SC1090
+    source "$script"
+    if ! install_decoder_xray "${xui_folder}"; then
+        LOGE "decoder-dev Xray install failed"
+        return 1
+    fi
+    restart_xray 1
+    LOGI "decoder-dev Xray installed and xray reload signaled"
+    if [[ $# == 0 ]]; then
+        before_show_menu
+    fi
+}
+
 status() {
     if [[ "${running_in_docker}" == "true" ]]; then
         show_status
@@ -3388,6 +3410,7 @@ show_usage() {
 │  ${blue}x-ui stop${plain}                  - Stop                             │
 │  ${blue}x-ui restart${plain}               - Restart                          │
 |  ${blue}x-ui restart-xray${plain}          - Restart Xray                     │
+|  ${blue}x-ui install-xray${plain}          - Install decoder-dev Xray-core    │
 │  ${blue}x-ui status${plain}                - Current Status                   │
 │  ${blue}x-ui settings${plain}              - Current Settings                 │
 │  ${blue}x-ui enable${plain}                - Enable Autostart on OS Startup   │
@@ -3556,6 +3579,9 @@ if [[ $# > 0 ]]; then
             ;;
         "restart-xray")
             check_install 0 && restart_xray 0
+            ;;
+        "install-xray")
+            check_install 0 && install_xray_decoder 0
             ;;
         "status")
             check_install 0 && status 0
