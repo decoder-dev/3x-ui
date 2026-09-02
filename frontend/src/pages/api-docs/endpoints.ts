@@ -1204,7 +1204,7 @@ export const sections: readonly Section[] = [
         summary: 'List registered HWID devices for a client. Hashes are not exposed.',
         params: [{ name: 'email', in: 'path', type: 'string', desc: 'Client email.' }],
         response:
-          '{\n  "success": true,\n  "obj": [\n    {\n      "id": 1,\n      "firstSeen": 1735000000000,\n      "lastSeen": 1735100000000,\n      "userAgent": "Happ/1.0",\n      "deviceOs": "android",\n      "osVersion": "15",\n      "deviceModel": "Pixel 9"\n    }\n  ]\n}',
+          '{\n  "success": true,\n  "obj": [\n    {\n      "id": 1,\n      "firstSeen": 1735000000000,\n      "lastSeen": 1735100000000,\n      "userAgent": "Happ/1.0",\n      "deviceOs": "android",\n      "osVersion": "15",\n      "deviceModel": "Pixel 9",\n      "ipAddress": "203.0.113.10",\n      "isBlocked": false\n    }\n  ]\n}',
       },
       {
         method: 'DELETE',
@@ -1222,6 +1222,17 @@ export const sections: readonly Section[] = [
           { name: 'email', in: 'path', type: 'string', desc: 'Client email.' },
           { name: 'id', in: 'path', type: 'number', desc: 'Device id, from the list endpoint.' },
         ],
+      },
+      {
+        method: 'POST',
+        path: '/panel/api/clients/hwids/:email/:id/block',
+        summary:
+          'Block or unblock a registered HWID device. Blocked devices are denied on the next subscription fetch.',
+        params: [
+          { name: 'email', in: 'path', type: 'string', desc: 'Client email.' },
+          { name: 'id', in: 'path', type: 'number', desc: 'Device id, from the list endpoint.' },
+        ],
+        body: '{\n  "blocked": true\n}',
       },
       {
         method: 'POST',
