@@ -54,7 +54,9 @@ export interface AllSetting {
   smtpTo: string;
   smtpUsername: string;
   subAnnounce: string;
+  subAnnounceUrl: string;
   subCertFile: string;
+  subChangeUserAgent: boolean;
   subClashAutoDetect: boolean;
   subClashEnable: boolean;
   subClashEnableRouting: boolean;
@@ -66,6 +68,7 @@ export interface AllSetting {
   subEnable: boolean;
   subEnableRouting: boolean;
   subEncrypt: boolean;
+  subHappFingerprint: string;
   subHideSettings: boolean;
   subIncyEnableRouting: boolean;
   subIncyRoutingRules: string;
@@ -81,6 +84,7 @@ export interface AllSetting {
   subJsonUserAgentRegex: string;
   subKeyFile: string;
   subListen: string;
+  subNoLimitXhttp: boolean;
   subPath: string;
   subPort: number;
   subProfileUrl: string;
@@ -91,6 +95,8 @@ export interface AllSetting {
   subTitle: string;
   subURI: string;
   subUpdates: number;
+  subUserAgent: string;
+  subUserAgentGeoFiles: string;
   tgBotAPIServer: string;
   tgBotBackup: boolean;
   tgBotChatId: string;
@@ -169,7 +175,9 @@ export interface AllSettingView {
   smtpTo: string;
   smtpUsername: string;
   subAnnounce: string;
+  subAnnounceUrl: string;
   subCertFile: string;
+  subChangeUserAgent: boolean;
   subClashAutoDetect: boolean;
   subClashEnable: boolean;
   subClashEnableRouting: boolean;
@@ -181,6 +189,7 @@ export interface AllSettingView {
   subEnable: boolean;
   subEnableRouting: boolean;
   subEncrypt: boolean;
+  subHappFingerprint: string;
   subHideSettings: boolean;
   subIncyEnableRouting: boolean;
   subIncyRoutingRules: string;
@@ -196,6 +205,7 @@ export interface AllSettingView {
   subJsonUserAgentRegex: string;
   subKeyFile: string;
   subListen: string;
+  subNoLimitXhttp: boolean;
   subPath: string;
   subPort: number;
   subProfileUrl: string;
@@ -206,6 +216,8 @@ export interface AllSettingView {
   subTitle: string;
   subURI: string;
   subUpdates: number;
+  subUserAgent: string;
+  subUserAgentGeoFiles: string;
   tgBotAPIServer: string;
   tgBotBackup: boolean;
   tgBotChatId: string;

@@ -190,6 +190,36 @@ func (s *Server) initRouter() (*gin.Engine, error) {
 		SubAnnounce = ""
 	}
 
+	SubAnnounceUrl, err := s.settingService.GetSubAnnounceUrl()
+	if err != nil {
+		SubAnnounceUrl = ""
+	}
+
+	SubChangeUserAgent, err := s.settingService.GetSubChangeUserAgent()
+	if err != nil {
+		SubChangeUserAgent = true
+	}
+
+	SubNoLimitXhttp, err := s.settingService.GetSubNoLimitXhttp()
+	if err != nil {
+		SubNoLimitXhttp = false
+	}
+
+	SubHappFingerprint, err := s.settingService.GetSubHappFingerprint()
+	if err != nil {
+		SubHappFingerprint = "chrome"
+	}
+
+	SubUserAgent, err := s.settingService.GetSubUserAgent()
+	if err != nil {
+		SubUserAgent = ""
+	}
+
+	SubUserAgentGeo, err := s.settingService.GetSubUserAgentGeoFiles()
+	if err != nil {
+		SubUserAgentGeo = ""
+	}
+
 	SubEnableRouting, err := s.settingService.GetSubEnableRouting()
 	if err != nil {
 		return nil, err
@@ -293,6 +323,12 @@ func (s *Server) initRouter() (*gin.Engine, error) {
 		WithSUBSupportURL(SubSupportUrl),
 		WithSUBProfileURL(SubProfileUrl),
 		WithSUBAnnounce(SubAnnounce),
+		WithSUBAnnounceURL(SubAnnounceUrl),
+		WithSUBChangeUserAgent(SubChangeUserAgent),
+		WithSUBNoLimitXhttp(SubNoLimitXhttp),
+		WithSUBHappFingerprint(SubHappFingerprint),
+		WithSUBUserAgent(SubUserAgent),
+		WithSUBUserAgentGeo(SubUserAgentGeo),
 		WithSUBEnableRouting(SubEnableRouting),
 		WithSUBRoutingRules(SubRoutingRules),
 		WithSUBHideSettings(SubHideSettings),

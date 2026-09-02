@@ -1,4 +1,4 @@
-import { Alert, Button, Input, InputNumber, Switch, Tabs, Tag } from 'antd';
+import { Alert, Button, Input, InputNumber, Select, Switch, Tabs, Tag } from 'antd';
 import {
   BranchesOutlined,
   CompassOutlined,
@@ -27,6 +27,13 @@ const isRemoteRoutingSource = (value: string) => /^https:\/\/\S+$/i.test(value.t
 
 const remoteSourceBadge = (value: string) =>
   isRemoteRoutingSource(value) ? <Tag color="blue">HTTPS URL</Tag> : undefined;
+
+const HAPP_FINGERPRINT_OPTIONS = [
+  { value: 'chrome', label: 'Chrome' },
+  { value: 'firefox', label: 'Firefox' },
+  { value: 'safari', label: 'Safari' },
+  { value: 'ios', label: 'iOS Safari' },
+];
 
 export default function SubscriptionGeneralTab({
   allSetting,
@@ -255,6 +262,18 @@ export default function SubscriptionGeneralTab({
               </SettingListItem>
               <SettingListItem
                 paddings="small"
+                title={t('pages.settings.subAnnounceUrl')}
+                description={t('pages.settings.subAnnounceUrlDesc')}
+              >
+                <RemarkTemplateField
+                  value={allSetting.subAnnounceUrl}
+                  placeholder="https://example.com/announce"
+                  onChange={(v) => updateSetting({ subAnnounceUrl: v })}
+                  metadataOnly
+                />
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
                 title={t('pages.settings.subThemeDir')}
                 description={
                   <>
@@ -341,6 +360,64 @@ export default function SubscriptionGeneralTab({
                 <Switch
                   checked={allSetting.subHideSettings}
                   onChange={(v) => updateSetting({ subHideSettings: v })}
+                />
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.subChangeUserAgent')}
+                description={t('pages.settings.subChangeUserAgentDesc')}
+              >
+                <Switch
+                  checked={allSetting.subChangeUserAgent}
+                  onChange={(v) => updateSetting({ subChangeUserAgent: v })}
+                />
+              </SettingListItem>
+              {allSetting.subChangeUserAgent && (
+                <>
+                  <SettingListItem
+                    paddings="small"
+                    title={t('pages.settings.subHappFingerprint')}
+                    description={t('pages.settings.subHappFingerprintDesc')}
+                  >
+                    <Select
+                      value={allSetting.subHappFingerprint || 'chrome'}
+                      options={HAPP_FINGERPRINT_OPTIONS}
+                      style={{ width: '100%' }}
+                      onChange={(v) => updateSetting({ subHappFingerprint: v })}
+                    />
+                  </SettingListItem>
+                  <SettingListItem
+                    paddings="small"
+                    title={t('pages.settings.subUserAgent')}
+                    description={t('pages.settings.subUserAgentDesc')}
+                  >
+                    <Input
+                      value={allSetting.subUserAgent}
+                      placeholder={t('pages.settings.subUserAgentPlaceholder')}
+                      onChange={(e) => updateSetting({ subUserAgent: e.target.value })}
+                    />
+                  </SettingListItem>
+                  <SettingListItem
+                    paddings="small"
+                    title={t('pages.settings.subUserAgentGeoFiles')}
+                    description={t('pages.settings.subUserAgentGeoFilesDesc')}
+                  >
+                    <Input
+                      value={allSetting.subUserAgentGeoFiles}
+                      placeholder={t('pages.settings.subUserAgentGeoFilesPlaceholder')}
+                      onChange={(e) => updateSetting({ subUserAgentGeoFiles: e.target.value })}
+                    />
+                  </SettingListItem>
+                </>
+              )}
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.subNoLimitXhttp')}
+                description={t('pages.settings.subNoLimitXhttpDesc')}
+              >
+                <Switch
+                  checked={allSetting.subNoLimitXhttp}
+                  onChange={(v) => updateSetting({ subNoLimitXhttp: v })}
                 />
               </SettingListItem>
             </>

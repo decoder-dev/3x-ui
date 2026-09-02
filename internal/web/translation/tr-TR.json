@@ -907,7 +907,13 @@
       "renewMaxDesc": "İstemcinin süresi dolmaya bırakılmadan önce otomatik yenilemenin kaç kez çalışabileceği. 0 sınırsız demektir. Kaçırılan birden fazla dönemi telafi etmek, dönem başına bir yenileme harcar.",
       "renewOnDay": "Yenileme günü",
       "renewOnDayDesc": "Her N günde bir yerine, her takvim ayının bu gününde, panel saat diliminde gece yarısı yeniler. Seçilen gün için kısa olan aylarda ayın son gününde yeniler. 0 gün aralığı modunu korur.",
-      "renewsUsed": "Kullanılan yenileme"
+      "renewsUsed": "Kullanılan yenileme",
+      "hwidBlocked": "Device blocked.",
+      "hwidUnblocked": "Device unblocked.",
+      "hwidIp": "IP address",
+      "hwidBlockedTag": "Blocked",
+      "blockHwid": "Block device",
+      "unblockHwid": "Unblock device"
     },
     "groups": {
       "name": "İsim",
@@ -1452,7 +1458,21 @@
           "httpMethodDesc": "Probe isteklerinde kullanılan HTTP yöntemi.",
           "note": "leastPing/leastLoad dengeleyicileri her zaman bir burstObservatory taşır. Bu anahtar probe parametrelerini özelleştirir — yerleşik varsayılanları kullanmak için kapatın. Değişiklikler panel yeniden başlatıldıktan sonra uygulanır."
         }
-      }
+      },
+      "subAnnounceUrl": "Announce URL",
+      "subAnnounceUrlDesc": "Link shown in the VPN client announcement area (Announce-URL header). Supports client identity tokens.",
+      "subChangeUserAgent": "Change User-Agent",
+      "subChangeUserAgentDesc": "Send change-user-agent and user-agent-geo-files headers for Happ clients (io-vpn style).",
+      "subHappFingerprint": "User-Agent preset",
+      "subHappFingerprintDesc": "Browser fingerprint preset when custom User-Agent is empty.",
+      "subUserAgent": "Custom User-Agent",
+      "subUserAgentDesc": "Override the preset User-Agent string sent in subscription headers.",
+      "subUserAgentPlaceholder": "Leave empty to use the preset above",
+      "subUserAgentGeoFiles": "User-Agent geo files",
+      "subUserAgentGeoFilesDesc": "Override user-agent-geo-files when empty (e.g. chrome-win, safari-ios).",
+      "subUserAgentGeoFilesPlaceholder": "Leave empty to use the preset above",
+      "subNoLimitXhttp": "No-limit xHTTP",
+      "subNoLimitXhttpDesc": "Send no-limit-xhttp-enabled header for Happ clients."
     },
     "xray": {
       "save": "Kaydet",

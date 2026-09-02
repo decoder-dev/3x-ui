@@ -1,5 +1,5 @@
 import { Button, Modal, Popconfirm, Tag, Typography } from 'antd';
-import { DeleteOutlined, ReloadOutlined } from '@ant-design/icons';
+import { DeleteOutlined, LockOutlined, ReloadOutlined, UnlockOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import type { ClientHwidInfo } from '@/lib/clients/hwid-log';
 
@@ -11,10 +11,12 @@ interface ClientHwidListModalProps {
   loading: boolean;
   clearing: boolean;
   deletingId: number | null;
+  blockingId: number | null;
   formatDate: (ts: number) => string;
   onRefresh: () => void;
   onClearAll: () => void;
   onDelete: (id: number) => void;
+  onSetBlocked: (id: number, blocked: boolean) => void;
   onClose: () => void;
 }
 
@@ -28,10 +30,12 @@ export default function ClientHwidListModal({
   loading,
   clearing,
   deletingId,
+  blockingId,
   formatDate,
   onRefresh,
   onClearAll,
   onDelete,
+  onSetBlocked,
   onClose,
 }: ClientHwidListModalProps) {
   const { t } = useTranslation();
@@ -81,10 +85,24 @@ export default function ClientHwidListModal({
                 <Typography.Text strong>
                   {entry.deviceModel || entry.userAgent || t('pages.clients.hwidDevice')}
                 </Typography.Text>
+                {entry.isBlocked ? (
+                  <>
+                    {' '}
+                    <Tag color="red">{t('pages.clients.hwidBlockedTag')}</Tag>
+                  </>
+                ) : null}
                 <br />
                 <Typography.Text type="secondary">
                   {[entry.deviceOs, entry.osVersion].filter(Boolean).join(' ')}
                 </Typography.Text>
+                {entry.ipAddress ? (
+                  <>
+                    <br />
+                    <Typography.Text type="secondary">
+                      {t('pages.clients.hwidIp')}: {entry.ipAddress}
+                    </Typography.Text>
+                  </>
+                ) : null}
                 <br />
                 <Typography.Text type="secondary">
                   {t('pages.clients.firstSeen')}: {formatDate(entry.firstSeen)}
@@ -102,22 +120,36 @@ export default function ClientHwidListModal({
                   </>
                 )}
               </div>
-              <Popconfirm
-                title={t('pages.clients.deleteHwidConfirm')}
-                onConfirm={() => onDelete(entry.id)}
-                okType="danger"
-                okText={t('delete')}
-                cancelText={t('cancel')}
-              >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                 <Button
-                  danger
                   type="text"
                   size="small"
-                  aria-label={t('pages.clients.deleteHwid')}
-                  icon={<DeleteOutlined />}
-                  loading={deletingId === entry.id}
+                  aria-label={
+                    entry.isBlocked
+                      ? t('pages.clients.unblockHwid')
+                      : t('pages.clients.blockHwid')
+                  }
+                  icon={entry.isBlocked ? <UnlockOutlined /> : <LockOutlined />}
+                  loading={blockingId === entry.id}
+                  onClick={() => onSetBlocked(entry.id, !entry.isBlocked)}
                 />
-              </Popconfirm>
+                <Popconfirm
+                  title={t('pages.clients.deleteHwidConfirm')}
+                  onConfirm={() => onDelete(entry.id)}
+                  okType="danger"
+                  okText={t('delete')}
+                  cancelText={t('cancel')}
+                >
+                  <Button
+                    danger
+                    type="text"
+                    size="small"
+                    aria-label={t('pages.clients.deleteHwid')}
+                    icon={<DeleteOutlined />}
+                    loading={deletingId === entry.id}
+                  />
+                </Popconfirm>
+              </div>
             </div>
           ))}
         </div>

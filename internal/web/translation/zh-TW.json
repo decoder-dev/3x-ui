@@ -907,7 +907,13 @@
       "renewMaxDesc": "自動續期最多可觸發的次數，達到後用戶端將自然到期。填 0 表示不限制。補齊多個錯過的週期時，每個週期消耗一次續期。",
       "renewOnDay": "按日期續期",
       "renewOnDayDesc": "每個自然月的這一天午夜（依面板時區）續期，而不是每 N 天續期一次。若當月沒有該日期，則在當月最後一天續期。填 0 保持按天間隔模式。",
-      "renewsUsed": "已用續期次數"
+      "renewsUsed": "已用續期次數",
+      "hwidBlocked": "Device blocked.",
+      "hwidUnblocked": "Device unblocked.",
+      "hwidIp": "IP address",
+      "hwidBlockedTag": "Blocked",
+      "blockHwid": "Block device",
+      "unblockHwid": "Unblock device"
     },
     "groups": {
       "name": "名稱",
@@ -1452,7 +1458,21 @@
           "httpMethodDesc": "探活請求使用的 HTTP 方法。",
           "note": "leastPing/leastLoad 平衡器始終帶有 burstObservatory。此開關自訂其探活參數 — 關閉以使用內建預設值。變更在面板重啟後生效。"
         }
-      }
+      },
+      "subAnnounceUrl": "Announce URL",
+      "subAnnounceUrlDesc": "Link shown in the VPN client announcement area (Announce-URL header). Supports client identity tokens.",
+      "subChangeUserAgent": "Change User-Agent",
+      "subChangeUserAgentDesc": "Send change-user-agent and user-agent-geo-files headers for Happ clients (io-vpn style).",
+      "subHappFingerprint": "User-Agent preset",
+      "subHappFingerprintDesc": "Browser fingerprint preset when custom User-Agent is empty.",
+      "subUserAgent": "Custom User-Agent",
+      "subUserAgentDesc": "Override the preset User-Agent string sent in subscription headers.",
+      "subUserAgentPlaceholder": "Leave empty to use the preset above",
+      "subUserAgentGeoFiles": "User-Agent geo files",
+      "subUserAgentGeoFilesDesc": "Override user-agent-geo-files when empty (e.g. chrome-win, safari-ios).",
+      "subUserAgentGeoFilesPlaceholder": "Leave empty to use the preset above",
+      "subNoLimitXhttp": "No-limit xHTTP",
+      "subNoLimitXhttpDesc": "Send no-limit-xhttp-enabled header for Happ clients."
     },
     "xray": {
       "save": "儲存",

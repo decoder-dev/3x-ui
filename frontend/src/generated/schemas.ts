@@ -155,8 +155,14 @@ export const SCHEMAS: Record<string, unknown> = {
       "subAnnounce": {
         "type": "string"
       },
+      "subAnnounceUrl": {
+        "type": "string"
+      },
       "subCertFile": {
         "type": "string"
+      },
+      "subChangeUserAgent": {
+        "type": "boolean"
       },
       "subClashAutoDetect": {
         "type": "boolean"
@@ -190,6 +196,9 @@ export const SCHEMAS: Record<string, unknown> = {
       },
       "subEncrypt": {
         "type": "boolean"
+      },
+      "subHappFingerprint": {
+        "type": "string"
       },
       "subHideSettings": {
         "type": "boolean"
@@ -236,6 +245,9 @@ export const SCHEMAS: Record<string, unknown> = {
       "subListen": {
         "type": "string"
       },
+      "subNoLimitXhttp": {
+        "type": "boolean"
+      },
       "subPath": {
         "type": "string"
       },
@@ -269,6 +281,12 @@ export const SCHEMAS: Record<string, unknown> = {
         "maximum": 525600,
         "minimum": 0,
         "type": "integer"
+      },
+      "subUserAgent": {
+        "type": "string"
+      },
+      "subUserAgentGeoFiles": {
+        "type": "string"
       },
       "tgBotAPIServer": {
         "type": "string"
@@ -395,7 +413,9 @@ export const SCHEMAS: Record<string, unknown> = {
       "smtpTo",
       "smtpUsername",
       "subAnnounce",
+      "subAnnounceUrl",
       "subCertFile",
+      "subChangeUserAgent",
       "subClashAutoDetect",
       "subClashEnable",
       "subClashEnableRouting",
@@ -407,6 +427,7 @@ export const SCHEMAS: Record<string, unknown> = {
       "subEnable",
       "subEnableRouting",
       "subEncrypt",
+      "subHappFingerprint",
       "subHideSettings",
       "subIncyEnableRouting",
       "subIncyRoutingRules",
@@ -422,6 +443,7 @@ export const SCHEMAS: Record<string, unknown> = {
       "subJsonUserAgentRegex",
       "subKeyFile",
       "subListen",
+      "subNoLimitXhttp",
       "subPath",
       "subPort",
       "subProfileUrl",
@@ -432,6 +454,8 @@ export const SCHEMAS: Record<string, unknown> = {
       "subTitle",
       "subURI",
       "subUpdates",
+      "subUserAgent",
+      "subUserAgentGeoFiles",
       "tgBotAPIServer",
       "tgBotBackup",
       "tgBotChatId",
@@ -634,8 +658,14 @@ export const SCHEMAS: Record<string, unknown> = {
       "subAnnounce": {
         "type": "string"
       },
+      "subAnnounceUrl": {
+        "type": "string"
+      },
       "subCertFile": {
         "type": "string"
+      },
+      "subChangeUserAgent": {
+        "type": "boolean"
       },
       "subClashAutoDetect": {
         "type": "boolean"
@@ -669,6 +699,9 @@ export const SCHEMAS: Record<string, unknown> = {
       },
       "subEncrypt": {
         "type": "boolean"
+      },
+      "subHappFingerprint": {
+        "type": "string"
       },
       "subHideSettings": {
         "type": "boolean"
@@ -715,6 +748,9 @@ export const SCHEMAS: Record<string, unknown> = {
       "subListen": {
         "type": "string"
       },
+      "subNoLimitXhttp": {
+        "type": "boolean"
+      },
       "subPath": {
         "type": "string"
       },
@@ -748,6 +784,12 @@ export const SCHEMAS: Record<string, unknown> = {
         "maximum": 525600,
         "minimum": 0,
         "type": "integer"
+      },
+      "subUserAgent": {
+        "type": "string"
+      },
+      "subUserAgentGeoFiles": {
+        "type": "string"
       },
       "tgBotAPIServer": {
         "type": "string"
@@ -881,7 +923,9 @@ export const SCHEMAS: Record<string, unknown> = {
       "smtpTo",
       "smtpUsername",
       "subAnnounce",
+      "subAnnounceUrl",
       "subCertFile",
+      "subChangeUserAgent",
       "subClashAutoDetect",
       "subClashEnable",
       "subClashEnableRouting",
@@ -893,6 +937,7 @@ export const SCHEMAS: Record<string, unknown> = {
       "subEnable",
       "subEnableRouting",
       "subEncrypt",
+      "subHappFingerprint",
       "subHideSettings",
       "subIncyEnableRouting",
       "subIncyRoutingRules",
@@ -908,6 +953,7 @@ export const SCHEMAS: Record<string, unknown> = {
       "subJsonUserAgentRegex",
       "subKeyFile",
       "subListen",
+      "subNoLimitXhttp",
       "subPath",
       "subPort",
       "subProfileUrl",
@@ -918,6 +964,8 @@ export const SCHEMAS: Record<string, unknown> = {
       "subTitle",
       "subURI",
       "subUpdates",
+      "subUserAgent",
+      "subUserAgentGeoFiles",
       "tgBotAPIServer",
       "tgBotBackup",
       "tgBotChatId",

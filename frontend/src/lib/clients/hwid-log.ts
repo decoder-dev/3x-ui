@@ -8,6 +8,8 @@ export type ClientHwidInfo = {
   deviceOs: string;
   osVersion: string;
   deviceModel: string;
+  ipAddress: string;
+  isBlocked: boolean;
 };
 
 // normalizeClientHwids accepts the API payload and returns typed entries,

@@ -79,6 +79,12 @@ type AllSetting struct {
 	SubSupportUrl               string `json:"subSupportUrl" form:"subSupportUrl"`
 	SubProfileUrl               string `json:"subProfileUrl" form:"subProfileUrl"`
 	SubAnnounce                 string `json:"subAnnounce" form:"subAnnounce"`
+	SubAnnounceUrl              string `json:"subAnnounceUrl" form:"subAnnounceUrl"`
+	SubChangeUserAgent          bool   `json:"subChangeUserAgent" form:"subChangeUserAgent"`
+	SubNoLimitXhttp             bool   `json:"subNoLimitXhttp" form:"subNoLimitXhttp"`
+	SubHappFingerprint          string `json:"subHappFingerprint" form:"subHappFingerprint"`
+	SubUserAgent                string `json:"subUserAgent" form:"subUserAgent"`
+	SubUserAgentGeoFiles        string `json:"subUserAgentGeoFiles" form:"subUserAgentGeoFiles"`
 	SubEnableRouting            bool   `json:"subEnableRouting" form:"subEnableRouting"`
 	SubRoutingRules             string `json:"subRoutingRules" form:"subRoutingRules"`
 	SubIncyEnableRouting        bool   `json:"subIncyEnableRouting" form:"subIncyEnableRouting"`

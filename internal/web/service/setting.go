@@ -94,6 +94,12 @@ var defaultValueMap = map[string]string{
 	"subSupportUrl":               "",
 	"subProfileUrl":               "",
 	"subAnnounce":                 "",
+	"subAnnounceUrl":              "",
+	"subChangeUserAgent":          "true",
+	"subNoLimitXhttp":             "false",
+	"subHappFingerprint":          "chrome",
+	"subUserAgent":                "",
+	"subUserAgentGeoFiles":        "",
 	"subEnableRouting":            "false",
 	"subRoutingRules":             "",
 	"subHideSettings":             "false",
@@ -784,6 +790,30 @@ func (s *SettingService) GetSubProfileUrl() (string, error) {
 
 func (s *SettingService) GetSubAnnounce() (string, error) {
 	return s.getString("subAnnounce")
+}
+
+func (s *SettingService) GetSubAnnounceUrl() (string, error) {
+	return s.getString("subAnnounceUrl")
+}
+
+func (s *SettingService) GetSubChangeUserAgent() (bool, error) {
+	return s.getBool("subChangeUserAgent")
+}
+
+func (s *SettingService) GetSubNoLimitXhttp() (bool, error) {
+	return s.getBool("subNoLimitXhttp")
+}
+
+func (s *SettingService) GetSubHappFingerprint() (string, error) {
+	return s.getString("subHappFingerprint")
+}
+
+func (s *SettingService) GetSubUserAgent() (string, error) {
+	return s.getString("subUserAgent")
+}
+
+func (s *SettingService) GetSubUserAgentGeoFiles() (string, error) {
+	return s.getString("subUserAgentGeoFiles")
 }
 
 func (s *SettingService) GetSubEnableRouting() (bool, error) {

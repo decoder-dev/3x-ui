@@ -49,6 +49,12 @@ type SUBController struct {
 	subSupportUrl    string
 	subProfileUrl    string
 	subAnnounce      string
+	subAnnounceUrl   string
+	subChangeUserAgent bool
+	subNoLimitXhttp    bool
+	subHappFingerprint string
+	subUserAgent       string
+	subUserAgentGeo    string
 	subEnableRouting bool
 	subRoutingRules  string
 	subHideSettings  bool
@@ -107,6 +113,12 @@ type subControllerConfig struct {
 	subSupportURL    string
 	subProfileURL    string
 	subAnnounce      string
+	subAnnounceURL   string
+	subChangeUserAgent bool
+	subNoLimitXhttp    bool
+	subHappFingerprint string
+	subUserAgent       string
+	subUserAgentGeo    string
 	subEnableRouting bool
 	subRoutingRules  string
 	subHideSettings  bool
@@ -209,6 +221,30 @@ func WithSUBAnnounce(value string) SUBControllerOption {
 	return func(config *subControllerConfig) { config.subAnnounce = value }
 }
 
+func WithSUBAnnounceURL(value string) SUBControllerOption {
+	return func(config *subControllerConfig) { config.subAnnounceURL = value }
+}
+
+func WithSUBChangeUserAgent(value bool) SUBControllerOption {
+	return func(config *subControllerConfig) { config.subChangeUserAgent = value }
+}
+
+func WithSUBNoLimitXhttp(value bool) SUBControllerOption {
+	return func(config *subControllerConfig) { config.subNoLimitXhttp = value }
+}
+
+func WithSUBHappFingerprint(value string) SUBControllerOption {
+	return func(config *subControllerConfig) { config.subHappFingerprint = value }
+}
+
+func WithSUBUserAgent(value string) SUBControllerOption {
+	return func(config *subControllerConfig) { config.subUserAgent = value }
+}
+
+func WithSUBUserAgentGeo(value string) SUBControllerOption {
+	return func(config *subControllerConfig) { config.subUserAgentGeo = value }
+}
+
 func WithSUBEnableRouting(value bool) SUBControllerOption {
 	return func(config *subControllerConfig) { config.subEnableRouting = value }
 }
@@ -251,11 +287,17 @@ func NewSUBController(g *gin.RouterGroup, options ...SUBControllerOption) *SUBCo
 	subJsonSvc := NewSubJsonService(config.subJsonMux, config.subJsonRules, config.subJsonFinalMask, sub)
 	subJsonSvc.SetObservatoryConfig(config.subJsonObservatory)
 	a := &SUBController{
-		subTitle:         config.subTitle,
-		subSupportUrl:    config.subSupportURL,
-		subProfileUrl:    config.subProfileURL,
-		subAnnounce:      config.subAnnounce,
-		subEnableRouting: config.subEnableRouting,
+		subTitle:           config.subTitle,
+		subSupportUrl:      config.subSupportURL,
+		subProfileUrl:      config.subProfileURL,
+		subAnnounce:        config.subAnnounce,
+		subAnnounceUrl:     config.subAnnounceURL,
+		subChangeUserAgent: config.subChangeUserAgent,
+		subNoLimitXhttp:    config.subNoLimitXhttp,
+		subHappFingerprint: config.subHappFingerprint,
+		subUserAgent:       config.subUserAgent,
+		subUserAgentGeo:    config.subUserAgentGeo,
+		subEnableRouting:   config.subEnableRouting,
 		subRoutingRules:  config.subRoutingRules,
 		subHideSettings:  config.subHideSettings,
 
@@ -435,6 +477,8 @@ func (a *SUBController) subs(c *gin.Context) {
 				result.WriteString("\n")
 			}
 		}
+
+		a.prependHappBodyComments(&result)
 
 		if a.subEncrypt {
 			c.String(200, base64.StdEncoding.EncodeToString([]byte(result.String())))
@@ -626,6 +670,7 @@ func (a *SUBController) enforceHwid(c *gin.Context) bool {
 		DeviceOS:    c.GetHeader("X-Device-OS"),
 		OsVersion:   c.GetHeader("X-Ver-OS"),
 		DeviceModel: c.GetHeader("X-Device-Model"),
+		IpAddress:   c.ClientIP(),
 	})
 	if err != nil {
 		writeSubError(c, err)
@@ -651,6 +696,9 @@ func applyHwidHeaders(c *gin.Context, result service.HwidGateResult) {
 	}
 	if result.MaxDevicesReached {
 		c.Header("X-Hwid-Max-Devices-Reached", "true")
+	}
+	if result.Blocked {
+		c.Header("X-Hwid-Blocked", "true")
 	}
 }
 
@@ -838,6 +886,8 @@ func (a *SUBController) ApplyCommonHeaders(
 		c.Writer.Header().Set("Announce", "base64:"+base64.StdEncoding.EncodeToString([]byte(profileAnnounce)))
 	}
 
+	a.applyHappAndIoHeaders(c)
+
 	// Advanced (Happ). Routing stays independent of the enable flag; remote
 	// values come only from the validated cache and never delay this response.
 	rules, remote, routingErr := resolveRoutingSource(remoteRoutingHapp, profileRoutingRules)
@@ -850,4 +900,43 @@ func (a *SUBController) ApplyCommonHeaders(
 	if profileHideSettings {
 		c.Writer.Header().Set("Hide-Settings", "1")
 	}
+}
+
+func (a *SUBController) happHeaderConfig() happHeaderConfig {
+	return happHeaderConfig{
+		ChangeUserAgent: a.subChangeUserAgent,
+		NoLimitXhttp:    a.subNoLimitXhttp,
+		Fingerprint:     a.subHappFingerprint,
+		UserAgent:       a.subUserAgent,
+		UserAgentGeo:    a.subUserAgentGeo,
+	}
+}
+
+func (a *SUBController) applyHappAndIoHeaders(c *gin.Context) {
+	if url := strings.TrimSpace(a.subAnnounceUrl); url != "" {
+		c.Writer.Header().Set("Announce-URL", url)
+	}
+	if a.subNoLimitXhttp {
+		c.Writer.Header().Set("no-limit-xhttp-enabled", "1")
+	} else {
+		c.Writer.Header().Set("no-limit-xhttp-enabled", "0")
+	}
+	for k, v := range a.happHeaderConfig().httpHeaders() {
+		c.Writer.Header().Set(k, v)
+	}
+	c.Writer.Header().Set("Cache-Control", "private, no-store")
+}
+
+func (a *SUBController) prependHappBodyComments(body *strings.Builder) {
+	lines := a.happHeaderConfig().bodyCommentLines(a.happHeaderConfig().httpHeaders())
+	if len(lines) == 0 {
+		return
+	}
+	existing := body.String()
+	body.Reset()
+	for _, line := range lines {
+		body.WriteString(line)
+		body.WriteString("\n")
+	}
+	body.WriteString(existing)
 }

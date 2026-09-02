@@ -907,7 +907,13 @@
       "renewMaxDesc": "عدد المرات التي يمكن أن يعمل فيها التجديد التلقائي قبل ترك العميل ينتهي. القيمة 0 تعني بلا حد. تعويض عدة فترات فائتة يستهلك تجديدًا واحدًا لكل فترة.",
       "renewOnDay": "يوم التجديد",
       "renewOnDayDesc": "يتم التجديد في هذا اليوم من كل شهر ميلادي، عند منتصف الليل بتوقيت اللوحة، بدلاً من كل N يوم. إذا كان الشهر أقصر من اليوم المختار، يتم التجديد في آخر يوم منه. القيمة 0 تُبقي وضع الفاصل اليومي.",
-      "renewsUsed": "التجديدات المستخدمة"
+      "renewsUsed": "التجديدات المستخدمة",
+      "hwidBlocked": "Device blocked.",
+      "hwidUnblocked": "Device unblocked.",
+      "hwidIp": "IP address",
+      "hwidBlockedTag": "Blocked",
+      "blockHwid": "Block device",
+      "unblockHwid": "Unblock device"
     },
     "groups": {
       "name": "الاسم",
@@ -1452,7 +1458,21 @@
           "httpMethodDesc": "الأسلوب المستخدم في طلبات probe.",
           "note": "تحمل موزّعات leastPing/leastLoad دائمًا burstObservatory. يخصّص هذا المفتاح معاملات probe — أوقفه لاستخدام الإعدادات الافتراضية المدمجة. تُطبَّق التغييرات بعد إعادة تشغيل اللوحة."
         }
-      }
+      },
+      "subAnnounceUrl": "Announce URL",
+      "subAnnounceUrlDesc": "Link shown in the VPN client announcement area (Announce-URL header). Supports client identity tokens.",
+      "subChangeUserAgent": "Change User-Agent",
+      "subChangeUserAgentDesc": "Send change-user-agent and user-agent-geo-files headers for Happ clients (io-vpn style).",
+      "subHappFingerprint": "User-Agent preset",
+      "subHappFingerprintDesc": "Browser fingerprint preset when custom User-Agent is empty.",
+      "subUserAgent": "Custom User-Agent",
+      "subUserAgentDesc": "Override the preset User-Agent string sent in subscription headers.",
+      "subUserAgentPlaceholder": "Leave empty to use the preset above",
+      "subUserAgentGeoFiles": "User-Agent geo files",
+      "subUserAgentGeoFilesDesc": "Override user-agent-geo-files when empty (e.g. chrome-win, safari-ios).",
+      "subUserAgentGeoFilesPlaceholder": "Leave empty to use the preset above",
+      "subNoLimitXhttp": "No-limit xHTTP",
+      "subNoLimitXhttpDesc": "Send no-limit-xhttp-enabled header for Happ clients."
     },
     "xray": {
       "save": "احفظ",

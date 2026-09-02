@@ -217,3 +217,47 @@ func TestClientHwidGateSharedSubIdUsesMaxLimit(t *testing.T) {
 		t.Fatalf("missing HWID should be denied: %+v", res)
 	}
 }
+
+func TestClientHwidBlock(t *testing.T) {
+	initClientHwidTestDB(t)
+	svc := &ClientService{}
+	rec := seedHwidClient(t, 5)
+
+	res, err := svc.EnforceHwidForSubID(rec.SubID, HwidRequest{
+		Hwid:        "blocked-device",
+		UserAgent:   "Happ/1.0",
+		DeviceOS:    "android",
+		IpAddress:   "203.0.113.10",
+	})
+	if err != nil || !res.Allowed {
+		t.Fatalf("register device: err=%v res=%+v", err, res)
+	}
+
+	list, err := svc.ListClientHwids(rec.Email)
+	if err != nil || len(list) != 1 {
+		t.Fatalf("list devices: err=%v list=%+v", err, list)
+	}
+	if list[0].IpAddress != "203.0.113.10" {
+		t.Fatalf("ip address = %q, want 203.0.113.10", list[0].IpAddress)
+	}
+
+	if err := svc.SetClientHwidBlocked(rec.Email, list[0].Id, true); err != nil {
+		t.Fatalf("block device: %v", err)
+	}
+
+	res, err = svc.EnforceHwidForSubID(rec.SubID, HwidRequest{Hwid: "blocked-device"})
+	if err != nil {
+		t.Fatalf("blocked gate: %v", err)
+	}
+	if res.Allowed || !res.Blocked || !res.LimitReached {
+		t.Fatalf("blocked device should be denied: %+v", res)
+	}
+
+	if err := svc.SetClientHwidBlocked(rec.Email, list[0].Id, false); err != nil {
+		t.Fatalf("unblock device: %v", err)
+	}
+	res, err = svc.EnforceHwidForSubID(rec.SubID, HwidRequest{Hwid: "blocked-device"})
+	if err != nil || !res.Allowed || res.Blocked {
+		t.Fatalf("unblocked device should pass: err=%v res=%+v", err, res)
+	}
+}

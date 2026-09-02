@@ -40,6 +40,12 @@ export class AllSetting {
   subSupportUrl = '';
   subProfileUrl = '';
   subAnnounce = '';
+  subAnnounceUrl = '';
+  subChangeUserAgent = true;
+  subNoLimitXhttp = false;
+  subHappFingerprint = 'chrome';
+  subUserAgent = '';
+  subUserAgentGeoFiles = '';
   subEnableRouting = false;
   subRoutingRules = '';
   subIncyEnableRouting = false;

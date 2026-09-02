@@ -132,3 +132,29 @@ func TestSubscriptionHwidGateSkipsHtmlInfoPage(t *testing.T) {
 		t.Fatalf("HTML sub page should not be HWID-gated: %#v", rec.Header())
 	}
 }
+
+func TestSubscriptionHwidBlockedDevice(t *testing.T) {
+	router, subID := initHwidSubRouter(t, 5)
+
+	rec := requestSub(t, router, http.MethodGet, "/sub/"+subID, "blocked-device", "")
+	if rec.Code != http.StatusOK {
+		t.Fatalf("register status = %d, want 200", rec.Code)
+	}
+
+	db := database.GetDB()
+	var row model.ClientHwid
+	if err := db.Where("sub_id = ?", subID).First(&row).Error; err != nil {
+		t.Fatalf("load hwid row: %v", err)
+	}
+	if err := db.Model(&model.ClientHwid{}).Where("id = ?", row.Id).Update("is_blocked", true).Error; err != nil {
+		t.Fatalf("block row: %v", err)
+	}
+
+	rec = requestSub(t, router, http.MethodGet, "/sub/"+subID, "blocked-device", "")
+	if rec.Code != http.StatusNotFound {
+		t.Fatalf("blocked device status = %d, want 404", rec.Code)
+	}
+	if rec.Header().Get("X-Hwid-Blocked") != "true" || rec.Header().Get("X-Hwid-Limit") != "true" {
+		t.Fatalf("blocked headers missing: %#v", rec.Header())
+	}
+}

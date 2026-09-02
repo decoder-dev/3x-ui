@@ -907,7 +907,13 @@
       "renewMaxDesc": "Cuántas veces puede activarse la renovación automática antes de dejar que el cliente caduque. 0 significa sin límite. Recuperar varios periodos perdidos consume una renovación por periodo.",
       "renewOnDay": "Renovar el día",
       "renewOnDayDesc": "Renueva este día de cada mes natural, a medianoche en la zona horaria del panel, en lugar de cada N días. Si el mes es demasiado corto para el día elegido, renueva su último día. 0 mantiene el modo de intervalo en días.",
-      "renewsUsed": "Renovaciones usadas"
+      "renewsUsed": "Renovaciones usadas",
+      "hwidBlocked": "Device blocked.",
+      "hwidUnblocked": "Device unblocked.",
+      "hwidIp": "IP address",
+      "hwidBlockedTag": "Blocked",
+      "blockHwid": "Block device",
+      "unblockHwid": "Unblock device"
     },
     "groups": {
       "name": "Nombre",
@@ -1452,7 +1458,21 @@
           "httpMethodDesc": "Método usado para las solicitudes de probe.",
           "note": "Los balanceadores leastPing/leastLoad siempre llevan un burstObservatory. Este interruptor personaliza sus parámetros de probe — apágalo para usar los valores predeterminados integrados. Los cambios se aplican tras reiniciar el panel."
         }
-      }
+      },
+      "subAnnounceUrl": "Announce URL",
+      "subAnnounceUrlDesc": "Link shown in the VPN client announcement area (Announce-URL header). Supports client identity tokens.",
+      "subChangeUserAgent": "Change User-Agent",
+      "subChangeUserAgentDesc": "Send change-user-agent and user-agent-geo-files headers for Happ clients (io-vpn style).",
+      "subHappFingerprint": "User-Agent preset",
+      "subHappFingerprintDesc": "Browser fingerprint preset when custom User-Agent is empty.",
+      "subUserAgent": "Custom User-Agent",
+      "subUserAgentDesc": "Override the preset User-Agent string sent in subscription headers.",
+      "subUserAgentPlaceholder": "Leave empty to use the preset above",
+      "subUserAgentGeoFiles": "User-Agent geo files",
+      "subUserAgentGeoFilesDesc": "Override user-agent-geo-files when empty (e.g. chrome-win, safari-ios).",
+      "subUserAgentGeoFilesPlaceholder": "Leave empty to use the preset above",
+      "subNoLimitXhttp": "No-limit xHTTP",
+      "subNoLimitXhttpDesc": "Send no-limit-xhttp-enabled header for Happ clients."
     },
     "xray": {
       "save": "Guardar configuración",

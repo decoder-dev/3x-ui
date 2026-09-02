@@ -19,6 +19,7 @@ type HwidRequest struct {
 	DeviceOS    string
 	OsVersion   string
 	DeviceModel string
+	IpAddress   string
 }
 
 type HwidGateResult struct {
@@ -27,6 +28,7 @@ type HwidGateResult struct {
 	NotSupported      bool
 	MaxDevicesReached bool
 	LimitReached      bool
+	Blocked           bool
 	Limit             int
 	Registered        int
 }
@@ -41,6 +43,8 @@ type ClientHwidInfo struct {
 	DeviceOS    string `json:"deviceOs"`
 	OsVersion   string `json:"osVersion"`
 	DeviceModel string `json:"deviceModel"`
+	IpAddress   string `json:"ipAddress"`
+	IsBlocked   bool   `json:"isBlocked"`
 }
 
 func hashHwid(raw string) string {
@@ -64,6 +68,7 @@ func normalizeHwidRequest(req HwidRequest) HwidRequest {
 		DeviceOS:    trimHwidMeta(req.DeviceOS),
 		OsVersion:   trimHwidMeta(req.OsVersion),
 		DeviceModel: trimHwidMeta(req.DeviceModel),
+		IpAddress:   trimHwidMeta(req.IpAddress),
 	}
 }
 
@@ -118,8 +123,13 @@ func (s *ClientService) EnforceHwidForSubID(subID string, req HwidRequest) (Hwid
 		var existing model.ClientHwid
 		err = tx.Where("sub_id = ? AND hwid_hash = ?", subID, hwidHash).First(&existing).Error
 		if err == nil {
+			if existing.IsBlocked {
+				res.Blocked = true
+				res.LimitReached = true
+				return nil
+			}
 			if err := tx.Model(&model.ClientHwid{}).Where("id = ?", existing.Id).Updates(map[string]any{
-				"last_seen": now, "user_agent": req.UserAgent, "device_os": req.DeviceOS, "os_version": req.OsVersion, "device_model": req.DeviceModel,
+				"last_seen": now, "user_agent": req.UserAgent, "device_os": req.DeviceOS, "os_version": req.OsVersion, "device_model": req.DeviceModel, "ip_address": req.IpAddress,
 			}).Error; err != nil {
 				return err
 			}
@@ -145,7 +155,7 @@ func (s *ClientService) EnforceHwidForSubID(subID string, req HwidRequest) (Hwid
 			res.LimitReached = true
 			return nil
 		}
-		if err := tx.Create(&model.ClientHwid{SubID: subID, HwidHash: hwidHash, FirstSeen: now, LastSeen: now, UserAgent: req.UserAgent, DeviceOS: req.DeviceOS, OsVersion: req.OsVersion, DeviceModel: req.DeviceModel}).Error; err != nil {
+		if err := tx.Create(&model.ClientHwid{SubID: subID, HwidHash: hwidHash, FirstSeen: now, LastSeen: now, UserAgent: req.UserAgent, DeviceOS: req.DeviceOS, OsVersion: req.OsVersion, DeviceModel: req.DeviceModel, IpAddress: req.IpAddress}).Error; err != nil {
 			return err
 		}
 		res.Allowed = true
@@ -183,6 +193,8 @@ func (s *ClientService) ListClientHwids(email string) ([]ClientHwidInfo, error) 
 			DeviceOS:    r.DeviceOS,
 			OsVersion:   r.OsVersion,
 			DeviceModel: r.DeviceModel,
+			IpAddress:   r.IpAddress,
+			IsBlocked:   r.IsBlocked,
 		})
 	}
 	return out, nil
@@ -212,6 +224,25 @@ func (s *ClientService) DeleteClientHwid(email string, id int) error {
 		return errors.New("client has no subscription id")
 	}
 	res := database.GetDB().Where("sub_id = ? AND id = ?", subID, id).Delete(&model.ClientHwid{})
+	if res.Error != nil {
+		return res.Error
+	}
+	if res.RowsAffected == 0 {
+		return errors.New("device not found")
+	}
+	return nil
+}
+
+func (s *ClientService) SetClientHwidBlocked(email string, id int, blocked bool) error {
+	rec, err := s.GetRecordByEmail(nil, email)
+	if err != nil {
+		return err
+	}
+	subID := strings.TrimSpace(rec.SubID)
+	if subID == "" {
+		return errors.New("client has no subscription id")
+	}
+	res := database.GetDB().Model(&model.ClientHwid{}).Where("sub_id = ? AND id = ?", subID, id).Update("is_blocked", blocked)
 	if res.Error != nil {
 		return res.Error
 	}
