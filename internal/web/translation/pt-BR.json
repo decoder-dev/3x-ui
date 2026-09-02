@@ -670,7 +670,12 @@
           "node": "Endereço do nó",
           "listen": "Endereço de escuta do inbound",
           "custom": "Personalizada"
-        }
+        },
+        "streamUpServerHint": "Server uplink keepalive window in packet-up/stream-up (dash range, e.g. 20-80). Requires decoder-dev Xray for packet-up.",
+        "streamDownServer": "Stream-Down Server",
+        "streamDownServerHint": "Downlink framed keepalive interval on server (dash range, e.g. 15-45). decoder-dev / Xray #6562.",
+        "downFrame": "Downlink frame keepalive",
+        "downFrameHint": "Client requests framed downlink keepalive (decoder-dev fork). Enable together with Stream-Down Server."
       },
       "info": {
         "mode": "Modo",

@@ -39,6 +39,7 @@ exports[`NetworkSettingsSchema fixtures > parses xhttp-basic byte-stably 1`] = `
 {
   "network": "xhttp",
   "xhttpSettings": {
+    "downFrame": false,
     "enableXmux": false,
     "headers": {},
     "host": "edge.example.test",
@@ -49,6 +50,7 @@ exports[`NetworkSettingsSchema fixtures > parses xhttp-basic byte-stably 1`] = `
     "scMaxBufferedPosts": 30,
     "scMaxEachPostBytes": "",
     "scMinPostsIntervalMs": "",
+    "scStreamDownServerSecs": "",
     "scStreamUpServerSecs": "20-80",
     "seqKey": "",
     "seqPlacement": "",
@@ -75,6 +77,7 @@ exports[`NetworkSettingsSchema fixtures > parses xhttp-extra-padding byte-stably
 {
   "network": "xhttp",
   "xhttpSettings": {
+    "downFrame": false,
     "enableXmux": false,
     "headers": {},
     "host": "edge.example.test",
@@ -85,6 +88,7 @@ exports[`NetworkSettingsSchema fixtures > parses xhttp-extra-padding byte-stably
     "scMaxBufferedPosts": 30,
     "scMaxEachPostBytes": "",
     "scMinPostsIntervalMs": "",
+    "scStreamDownServerSecs": "",
     "scStreamUpServerSecs": "20-80",
     "seqKey": "",
     "seqPlacement": "",
@@ -111,6 +115,7 @@ exports[`NetworkSettingsSchema fixtures > parses xhttp-extra-placement byte-stab
 {
   "network": "xhttp",
   "xhttpSettings": {
+    "downFrame": false,
     "enableXmux": false,
     "headers": {},
     "host": "edge.example.test",
@@ -121,6 +126,7 @@ exports[`NetworkSettingsSchema fixtures > parses xhttp-extra-placement byte-stab
     "scMaxBufferedPosts": 30,
     "scMaxEachPostBytes": "",
     "scMinPostsIntervalMs": "",
+    "scStreamDownServerSecs": "",
     "scStreamUpServerSecs": "20-80",
     "seqKey": "X-Seq",
     "seqPlacement": "cookie",
@@ -147,6 +153,7 @@ exports[`NetworkSettingsSchema fixtures > parses xhttp-extra-tuning byte-stably 
 {
   "network": "xhttp",
   "xhttpSettings": {
+    "downFrame": false,
     "enableXmux": false,
     "headers": {
       "X-Forwarded-For": "10.0.0.1",
@@ -160,6 +167,7 @@ exports[`NetworkSettingsSchema fixtures > parses xhttp-extra-tuning byte-stably 
     "scMaxBufferedPosts": 50,
     "scMaxEachPostBytes": "2000000",
     "scMinPostsIntervalMs": "60",
+    "scStreamDownServerSecs": "",
     "scStreamUpServerSecs": "30-90",
     "seqKey": "",
     "seqPlacement": "",

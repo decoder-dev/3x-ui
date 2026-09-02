@@ -670,7 +670,12 @@
         "bytesPerSec": "Saniye Başına Bayt",
         "bytesPerSecTip": "Eşik aşıldıktan sonra fallback trafiğine uygulanan hız sınırı (bayt/sn); böylece sondalar sunucunuzu hedefe ücretsiz bant genişliği olarak kullanamaz. 0 = sınır yok (bu yönü devre dışı bırakır).",
         "burstBytesPerSec": "Saniye Başına Patlama Baytı",
-        "burstBytesPerSecTip": "Sabit hızın üzerindeki kısa patlamalar için pay (token-bucket boyutu). Saniye Başına Bayt değerinden düşükse ona eşitlenecek şekilde yükseltilir."
+        "burstBytesPerSecTip": "Sabit hızın üzerindeki kısa patlamalar için pay (token-bucket boyutu). Saniye Başına Bayt değerinden düşükse ona eşitlenecek şekilde yükseltilir.",
+        "streamUpServerHint": "Server uplink keepalive window in packet-up/stream-up (dash range, e.g. 20-80). Requires decoder-dev Xray for packet-up.",
+        "streamDownServer": "Stream-Down Server",
+        "streamDownServerHint": "Downlink framed keepalive interval on server (dash range, e.g. 15-45). decoder-dev / Xray #6562.",
+        "downFrame": "Downlink frame keepalive",
+        "downFrameHint": "Client requests framed downlink keepalive (decoder-dev fork). Enable together with Stream-Down Server."
       },
       "info": {
         "mode": "Mod",
