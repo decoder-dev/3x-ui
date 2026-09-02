@@ -37,7 +37,7 @@ import { normalizeClientIps, type ClientIpInfo } from '@/lib/clients/ip-log';
 import { useDatepicker } from '@/hooks/useDatepicker';
 import { useClientHwids } from '@/hooks/useClientHwids';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { responsiveFormLayout, responsiveModalProps } from '@/lib/ui/responsive-modal';
+import { responsiveModalProps } from '@/lib/ui/responsive-modal';
 import { DateTimePicker, SelectAllClearButtons } from '@/components/form';
 import { FormField } from '@/components/form/rhf';
 import ClientHwidListModal from '@/components/clients/ClientHwidList';
@@ -251,7 +251,6 @@ export default function ClientFormModal({
 }: ClientFormModalProps) {
   const { t } = useTranslation();
   const { isMobile } = useMediaQuery();
-  const formLayout = responsiveFormLayout(isMobile);
   const clientModalProps = responsiveModalProps(isMobile, { desktopWidth: 720 });
   const [messageApi, messageContextHolder] = message.useMessage();
   const isEdit = mode === 'edit';

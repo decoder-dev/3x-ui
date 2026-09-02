@@ -65,7 +65,7 @@ export function responsiveModalProps(
         flexShrink: 0,
         paddingBottom: 'calc(12px + env(safe-area-inset-bottom, 0px))',
       },
-    },
+    } as ModalProps['styles'],
   };
 }
 
