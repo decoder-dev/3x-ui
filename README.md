@@ -1,5 +1,3 @@
-[English](/README.md) | [Русский](/README.ru_RU.md)
-
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./media/3x-ui-dark.png">
@@ -8,65 +6,82 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/decoder-dev/3x-ui/releases"><img src="https://img.shields.io/github/v/release/decoder-dev/3x-ui?label=release" alt="Release"></a>
+  <a href="https://github.com/decoder-dev/3x-ui/releases"><img src="https://img.shields.io/github/v/release/decoder-dev/3x-ui?label=релиз" alt="Release"></a>
   <a href="https://github.com/decoder-dev/3x-ui/actions"><img src="https://img.shields.io/github/actions/workflow/status/decoder-dev/3x-ui/release.yml.svg" alt="Build"></a>
-  <a href="#"><img src="https://img.shields.io/github/go-mod/go-version/decoder-dev/3x-ui.svg" alt="GO Version"></a>
-  <a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://img.shields.io/badge/license-GPL%20V3-blue.svg?longCache=true" alt="License"></a>
+  <a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://img.shields.io/badge/license-GPL%20V3-blue.svg" alt="License"></a>
 </p>
 
-**3хуя** is a maintained fork of [3X-UI](https://github.com/MHSanaei/3x-ui) — an open-source web panel for [Xray-core](https://github.com/XTLS/Xray-core). It ships with **[decoder-dev/Xray-core](https://github.com/decoder-dev/Xray-core)** (XHTTP variant B, `scStreamDown`, `downFrame`) and panel changes needed for CDN → nginx → XHTTP deployments.
+# 3хуя
+
+**Контора на районе.** Не «ещё одна панелька» — а свой стол, свои понятия, свой Xray под **variant B**.
+
+Форк [3X-UI](https://github.com/MHSanaei/3x-ui), только без понтов ради понтов: сюда залит **[decoder-dev/Xray-core](https://github.com/decoder-dev/Xray-core)** — XHTTP packet-up, `scStreamDown`, `downFrame`, всё что надо, когда схема **CDN → nginx → XHTTP**, а не «поставил и молись».
 
 > [!IMPORTANT]
-> For personal/lab use only. Fork branding is display-only: paths, service name, and binary stay `x-ui` / `/usr/local/x-ui`.
+> **По понятиям:** только для своих, лаборатории, домашнего VPS. Не для продакшена и не для серых схем — мы тут инфраструктуру крутим, а не законы переписываем.
+>
+> Бренд **3хуя** — в морде панели. Под капотом всё по-старому: `x-ui`, `/usr/local/x-ui`, systemd. Чтоб апдейты и скрипты не ломались.
 
-## Why this fork
+---
 
-| Area | What 3хуя adds |
+## Что тут за расстановка
+
+| Понятие | Что по факту |
 | --- | --- |
-| **Xray** | Auto-install/update **decoder-dev** builds (`*-decoder` tags), `x-ui install-xray` |
-| **XHTTP variant B** | UI fields `scStreamDownServerSecs`, `downFrame`; Clash/sub/link export |
-| **Panel UX** | Rebrand to **3хуя**, mobile-friendly layout |
-| **Stability** | `tgId` accepts JSON number or numeric string (legacy DB rows) |
-| **Releases** | `decoder-dev/3x-ui` tarballs + tag `dev-latest` on every `main` push |
+| **Ядро** | Xray с decoder-dev — variant B из коробки, `x-ui install-xray` если надо перекатить |
+| **XHTTP** | В UI есть `scStreamDownServerSecs` и `downFrame` — не наугад в конфиге, а как люди |
+| **Подписка / Clash** | Поля variant B уезжают в sub и Clash/Meta — клиент видит то, что на сервере |
+| **Морда** | Переименовано в **3хуя**, на телефоне не страдай — адаптив есть |
+| **База** | `tgId` не падает от кривого JSON — старые записи в SQLite не трогают нервы |
+| **Доставка** | Релизы `decoder-dev/3x-ui`, тег `dev-latest` — свежак с `main` без церемоний |
 
-Full Russian install guide: [`INSTALL-decoder-dev.ru.md`](INSTALL-decoder-dev.ru.md).
+Полный разбор установки под наш эталон: [`INSTALL-decoder-dev.ru.md`](INSTALL-decoder-dev.ru.md).
 
-## Features (inherited from 3X-UI)
+---
 
-- **Multi-protocol inbounds** — VLESS, VMess, Trojan, Shadowsocks, WireGuard, Hysteria2, HTTP, SOCKS, Tunnel, TUN, MTProto
-- **Transports** — TCP, mKCP, WebSocket, gRPC, HTTPUpgrade, **XHTTP** (TLS / REALITY / Vision / ML-KEM)
-- **Clients** — quotas, expiry, IP limits, HWID limits, online status, QR, subscriptions
-- **Multi-node**, outbound routing, WARP, balancers, subscription server (Clash / JSON / raw)
-- **Telegram bot**, REST API + Swagger, SQLite or PostgreSQL, 13 UI languages, Fail2ban
+## Что умеет (наследие 3X-UI — не выкидывали)
 
-## Quick start
+- **Протоколы:** VLESS, VMess, Trojan, SS, WireGuard, Hysteria2, HTTP, SOCKS, Tunnel, TUN, MTProto
+- **Транспорт:** TCP, mKCP, WS, gRPC, HTTPUpgrade, **XHTTP** + TLS / REALITY / Vision / ML-KEM
+- **Клиенты:** лимиты трафика, срок, IP, HWID, онлайн, QR, подписки
+- **Ноды, routing, WARP**, балансировщики, свой sub-сервер (Clash / JSON / raw)
+- **Telegram-бот**, API + Swagger, SQLite или Postgres, 13 языков, Fail2ban
+
+---
+
+## Быстрый старт — завести точку
+
+Один VPS, root, Ubuntu/Debian — по классике:
 
 ```bash
 bash <(curl -Ls https://raw.githubusercontent.com/decoder-dev/3x-ui/main/install.sh)
 ```
 
-Specific release (recommended):
+**Стабильный релиз** (рекомендуем, без сюрпризов):
 
 ```bash
 bash <(curl -Ls https://raw.githubusercontent.com/decoder-dev/3x-ui/main/install.sh) v3.7.0-decoder
 ```
 
-Rolling build from `main`:
+**Dev-сборка** — что в `main`, то и на сервере (`dev-latest`):
 
 ```bash
 bash <(curl -Ls https://raw.githubusercontent.com/decoder-dev/3x-ui/main/install.sh) dev-latest
 ```
 
-After install, run `x-ui` for the management menu (credentials, SSL, restart, update).
+После установки — `x-ui`: логин, SSL, рестарт, обновление. Панель сама накидает логин/пароль/путь, если не указал.
 
-### Replace Xray only (existing panel)
+### Панель уже стоит — только Xray перекатить
 
 ```bash
 x-ui install-xray
-# or see INSTALL-decoder-dev.ru.md for manual steps
 ```
 
-### Unattended install
+Или руками — в [`INSTALL-decoder-dev.ru.md`](INSTALL-decoder-dev.ru.md), там без воды.
+
+### Cloud-init / без диалогов
+
+Когда терминала нет, а VPS должен подняться сам:
 
 ```bash
 export XUI_NONINTERACTIVE=1
@@ -77,42 +92,50 @@ export XUI_WEB_BASE_PATH='your-secret-path'
 bash <(curl -Ls https://raw.githubusercontent.com/decoder-dev/3x-ui/main/install.sh)
 ```
 
-Credentials: `/etc/x-ui/install-result.env`.
+Креды лежат в `/etc/x-ui/install-result.env` — сохрани, потом не ищи по логам.
 
-## Repositories
+---
 
-| Component | Repository | Example tag |
+## Два репозитория — не перепутай
+
+| Что | Куда | Тег для примера |
 | --- | --- | --- |
-| Panel | [decoder-dev/3x-ui](https://github.com/decoder-dev/3x-ui) | `v3.7.0-decoder`, `dev-latest` |
-| Xray | [decoder-dev/Xray-core](https://github.com/decoder-dev/Xray-core) | `v26.7.28-decoder` |
+| Панель **3хуя** | [decoder-dev/3x-ui](https://github.com/decoder-dev/3x-ui) | `v3.7.0-decoder`, `dev-latest` |
+| Ядро Xray | [decoder-dev/Xray-core](https://github.com/decoder-dev/Xray-core) | `v26.7.28-decoder` |
 
-Upstream docs (most topics still apply): [MHSanaei/3x-ui Wiki](https://github.com/MHSanaei/3x-ui/wiki).
+Upstream-вики по общим темам: [MHSanaei/3x-ui Wiki](https://github.com/MHSanaei/3x-ui/wiki) — половина статей всё ещё актуальна.
 
-## Supported platforms
+---
 
-**OS:** Ubuntu, Debian, Fedora, CentOS, RHEL, Alma/Rocky, Arch, Alpine, Windows, and others supported by upstream installer.
+## Платформы и база
 
-**Arch:** `amd64` · `386` · `arm64` · `armv7` · `armv6` · `armv5` · `s390x`.
+**ОС:** Linux (Ubuntu, Debian, RHEL-семейство, Arch, Alpine…) и Windows — как у upstream.
 
-## Database
+**Архи:** amd64, arm64, armv7 и остальное из списка upstream.
 
-Same as upstream: SQLite (default) or PostgreSQL via `XUI_DB_TYPE` / `XUI_DB_DSN` in `/etc/default/x-ui`.
+**БД:** SQLite из коробки (`/etc/x-ui/x-ui.db`) или Postgres через `XUI_DB_TYPE` / `XUI_DB_DSN` в `/etc/default/x-ui`.
 
-## Environment variables
+---
 
-Same as [upstream README](https://github.com/MHSanaei/3x-ui#environment-variables), plus installer reads `XUI_GITHUB_REPO=decoder-dev/3x-ui` by default in this fork.
-
-## Updating
+## Обновление — не ломай расстановку
 
 ```bash
-x-ui update          # panel from decoder-dev/3x-ui releases
-x-ui install-xray    # refresh decoder-dev Xray binary
+x-ui update          # панель с релизов decoder-dev/3x-ui
+x-ui install-xray    # свежий decoder-dev Xray в bin/
 ```
 
-## Acknowledgments
+После апдейта панели Xray подтянется сам, если ставил через наш install/update — но `install-xray` не помешает, если руками ковырял.
 
-- [MHSanaei/3x-ui](https://github.com/MHSanaei/3x-ui) — base panel
-- [XTLS/Xray-core](https://github.com/XTLS/Xray-core) — core; decoder patches in [decoder-dev/Xray-core](https://github.com/decoder-dev/Xray-core)
-- [alireza0](https://github.com/alireza0/) — original X-UI lineage
+---
 
-Licensed under **GPL-3.0** (same as upstream).
+## Откуда ноги растут
+
+- [MHSanaei/3x-ui](https://github.com/MHSanaei/3x-ui) — базовая панель, уважение
+- [XTLS/Xray-core](https://github.com/XTLS/Xray-core) — ядро; наши патчи — [decoder-dev/Xray-core](https://github.com/decoder-dev/Xray-core)
+- [alireza0](https://github.com/alireza0/) — lineage X-UI
+
+**GPL-3.0** — как у предков. Форк open-source, не «закрытая контора».
+
+---
+
+<p align="center"><strong>3хуя — когда панель должна знать, что такое variant B, а не притворяться обычным 3X-UI.</strong></p>
